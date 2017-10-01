@@ -1,0 +1,1820 @@
+<?xml version="1.0"?>
+
+<ClusterInfo>
+
+	<!-- specific configurations -->
+	<Parameters>
+		
+		<!-- pattern pour les path des exe Windchill -->		
+		<Parameter name="WindchillExePath_Pattern" value="*Windchill*" />
+		
+		<!-- pattern pour les path des exe Windchill Directory Server -->		
+		<Parameter name="WDSExePath_Pattern" value="*Windchill_10.1_WDS*" />
+		
+		<!-- pattern pour distinguer les exe Windchill "Server Manager" -->		
+		<Parameter name="commandLineSM_Pattern" value="*-Dwt.manager.serviceName=ServerManager*" />
+		
+		<!-- pattern pour distinguer les exe Windchill "Method Serve" -->		
+		<Parameter name="commandLineMS_Pattern" value="*-Dwt.manager.serviceName=MethodServer*" />
+		
+		<!-- pattern pour distinguer les exe Windchill "Background Method Server" -->		
+		<Parameter name="commandLineBMS_Pattern" value="*-Dwt.manager.serviceName=Background*" />
+		
+		<!-- Tomcat cache path. 
+       		 Argument {0} correspond to the server name or IP-->		
+		<Parameter name="cacheTomcat" value="\\{0}\ptc\Windchill_10.1\Windchill\tomcat\instances" />
+		
+		<!-- Info*Engine cache path.
+       		 Argument {0} correspond to the server name or IP-->		
+		<Parameter name="cacheInfoEngine" value="\\{0}\ptc\Windchill_10.1\Windchill\tasks\codebase\com\infoengine\compiledTasks\file" />
+		
+		<!-- Workflows cache path.
+       		 Argument {0} correspond to the server nameor IP-->		
+		<Parameter name="cacheWorkflows" value="\\{0}\ptc\Windchill_10.1\Windchill\codebase\wt\workflow\expr" />
+		
+		<!-- path of banner.txt file
+       		 Argument {0} correspond to the server name or IP-->		
+		<Parameter name="bannerTxtPath" value="\\{0}\ptc\Windchill_10.1\Windchill\codebase\netmarkets\jsp\util\banner.txt" />		
+		
+		<!-- Command for the robocopy
+       		 Argument {0} source server name or IP
+			 Argument {1} destination server name or IP
+			 Argument {2} source server key name (ex: BT1, BT2, FE1, FE2...)
+			 Argument {3} destination server key name (ex: BT1, BT2, FE1, FE2...)
+			 -->		
+		<Parameter name="robocopyCommand" value="robocopy \\{0}\ptc\Windchill_10.1 \\{1}\ptc\Windchill_10.1 /MIR /R:1 /W:1 /XJ /LOG:C:\temp\roboCopyFrom{2}To{3}.log" />		
+				
+
+
+	</Parameters>
+
+	<!-- NewPDM Corporate -->	
+	<Cluster name="PDM-PROD01" version="3.2 HF7" fullVersion="WINDCHILLM020_PHENIX4V10_NEWPDM_R3.2HF7" instanceName="Connect Windchill Corporate"  description="Connect Windchill Corporate" isProductionServer="true" WindchillControl="true">
+		<ServerURL>
+			<Icon>star-medal-gold-green.png</Icon>
+			<URL DisplayName="Connect Windchill Corporate" wtURL="true">http://pdm-prod01.corporate.eu.astrium.corp:8000/Windchill</URL>
+			<URL DisplayName="Cognos8">http://pdm-prod01.corporate.eu.astrium.corp:8000/cognos8</URL>
+			<URL DisplayName="Adobe LiveCycle ES3">http://copdfrp14.corporate.eu.astrium.corp:8080/adminui/login.faces</URL>
+			<URL DisplayName="Web Services WT">http://pdm-prod01.corporate.eu.astrium.corp:8000/Windchill/servlet/RMWebServices</URL>
+		</ServerURL>
+		<ServerNode name="BT1" server="copdfrp10.corporate.eu.astrium.corp" ip="10.49.1.41">
+			<ServerDescription>Windchill DS, 1 Background MS, 3 MS, 1 Partslink</ServerDescription>
+			<Services>
+				<WDS>Windchill Directory Server</WDS>
+				<Apache>WindchillApache</Apache>
+				<MasterServerManager>WindchillMasterServerManager</MasterServerManager>
+				<Windchill>Windchill</Windchill>
+				<PartsLink>Windchill_PartsLink</PartsLink>				
+			</Services>
+		</ServerNode>
+		<ServerNode name="BT2" server="copdfrp11.corporate.eu.astrium.corp" ip="10.49.1.42">
+			<ServerDescription>Windchill DS Slave, 1 Background, 3 MS, 1 cognos Gateway</ServerDescription>
+			<Services>
+				<WDS>Windchill Directory Server</WDS>
+				<Apache>WindchillApache</Apache>				
+				<Windchill>Windchill</Windchill>
+			</Services>
+		</ServerNode>
+		<ServerNode name="MIG1" server="copdfrp16.corporate.eu.astrium.corp" ip="10.49.1.95">
+			<ServerDescription>3 MS</ServerDescription>
+			<Services>			
+				<Apache>WindchillApache</Apache>				
+				<Windchill>Windchill</Windchill>
+			</Services>			
+		</ServerNode>
+		<ServerNode name="FE1" server="copdfrp12.corporate.eu.astrium.corp" ip="10.49.1.43">
+			<ServerDescription>3 MS</ServerDescription>
+			<Services>			
+				<Apache>WindchillApache</Apache>				
+				<Windchill>Windchill</Windchill>
+			</Services>			
+		</ServerNode>
+		<ServerNode name="FE2" server="copdfrp13.corporate.eu.astrium.corp" ip="10.49.1.44">
+			<ServerDescription>3 MS</ServerDescription>
+			<Services>
+				<Apache>WindchillApache</Apache>				
+				<Windchill>Windchill</Windchill>
+			</Services>
+		</ServerNode>
+		<ServerNode name="PDF" server="copdfrp14.corporate.eu.astrium.corp" ip="10.49.1.45">
+			<ServerDescription>Cognos, JBOSS, CreoView</ServerDescription>
+			<Services>
+				<Cognos>Cognos 8</Cognos>
+				<Adobe>JBOSS_FOR_ADOBE_LIVECYCLE_ES3</Adobe>
+				<AdobeDB>MySQL for Adobe LiveCycle ES3</AdobeDB>				
+				<AdobeWorker>GS Worker Daemon</AdobeWorker>
+			</Services>
+		</ServerNode>		
+		<Database> 
+			<ServerName>codbfrp06.corporate.eu.astrium.corp</ServerName>
+			<ServerPort>1545</ServerPort>
+			<ServerSID>PDMPRODB</ServerSID>
+		</Database>		
+		<ActiveDirectory>
+			<adURL>ldap://windchill-ldapsat.tls.fr.astrium.corp:3268/</adURL>
+			<adSearchBase>dc=astrium,dc=corp</adSearchBase>
+			<adBranch>memberOf=CN=Windchill_Production, OU=Windchill, OU=Windchill_Gestion, OU=Application Access, OU=Company Groups, DC=fr, dc=astrium,dc=corp</adBranch>
+		</ActiveDirectory>
+		<Logs>                       
+            <log node="BT1" category="Apache" folder="\\copdfrp10.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Apache\copdfrp10.corporate.eu.astrium.corp\" archive="\\coconnasfrpb01.corporate.eu.astrium.corp\PDMPROD_LOG\Apache\copdfrp10.corporate.eu.astrium.corp\" />
+            <log node="BT2" category="Apache" folder="\\copdfrp11.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Apache\copdfrp11.corporate.eu.astrium.corp\" archive="\\coconnasfrpb01.corporate.eu.astrium.corp\PDMPROD_LOG\Apache\copdfrp11.corporate.eu.astrium.corp\" />
+            <log node="FE1" category="Apache" folder="\\copdfrp12.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Apache\copdfrp12.corporate.eu.astrium.corp\" archive="\\coconnasfrpb01.corporate.eu.astrium.corp\PDMPROD_LOG\Apache\copdfrp12.corporate.eu.astrium.corp\" />
+            <log node="FE2" category="Apache" folder="\\copdfrp13.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Apache\copdfrp13.corporate.eu.astrium.corp\" archive="\\coconnasfrpb01.corporate.eu.astrium.corp\PDMPROD_LOG\Apache\copdfrp13.corporate.eu.astrium.corp\" />
+            <log node="MIG1" category="Apache" folder="\\copdfrp16.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Apache\copdfrp16.corporate.eu.astrium.corp\" archive="\\coconnasfrpb01.corporate.eu.astrium.corp\PDMPROD_LOG\Apache\copdfrp16.corporate.eu.astrium.corp\" />
+                        
+            <log node="BT1" category="Windchill" folder="\\copdfrp10.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Windchill\copdfrp10.corporate.eu.astrium.corp\" archive="\\coconnasfrpb01.corporate.eu.astrium.corp\PDMPROD_LOG\Windchill\copdfrp10.corporate.eu.astrium.corp\" />
+            <log node="BT2" category="Windchill" folder="\\copdfrp11.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Windchill\copdfrp11.corporate.eu.astrium.corp\" archive="\\coconnasfrpb01.corporate.eu.astrium.corp\PDMPROD_LOG\Windchill\copdfrp11.corporate.eu.astrium.corp\" />
+            <log node="FE1" category="Windchill" folder="\\copdfrp12.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Windchill\copdfrp12.corporate.eu.astrium.corp\" archive="\\coconnasfrpb01.corporate.eu.astrium.corp\PDMPROD_LOG\Windchill\copdfrp12.corporate.eu.astrium.corp\" />
+            <log node="FE2" category="Windchill" folder="\\copdfrp13.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Windchill\copdfrp13.corporate.eu.astrium.corp\" archive="\\coconnasfrpb01.corporate.eu.astrium.corp\PDMPROD_LOG\Windchill\copdfrp13.corporate.eu.astrium.corp\" />
+            <log node="MIG1" category="Windchill" folder="\\copdfrp16.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Windchill\copdfrp16.corporate.eu.astrium.corp\" archive="\\coconnasfrpb01.corporate.eu.astrium.corp\PDMPROD_LOG\Windchill\copdfrp16.corporate.eu.astrium.corp\" />                        
+		</Logs>
+		<Folders>
+			<Folder name="SOLR" type="CIFS" description="Windchill SOLR">
+				<location>\\coconnasfrpb01.corporate.eu.astrium.corp\PDMPROD_SOLR</location>
+				<comment>200Go</comment>
+			</Folder>
+			<Folder type="CIFS" description="Windchill TEMP">
+				<location>\\coconnasfrpb01.corporate.eu.astrium.corp\PDMPROD_TEMP</location>
+				<comment>200Go</comment>
+			</Folder>
+			<Folder name="VAULT" type="CIFS" description="Windchill Vaults">
+				<location>\\coconnasfrpb01.corporate.eu.astrium.corp\PDMPROD_VAULT</location>
+				<comment>1To</comment>
+			</Folder>
+			<Folder name="VAULT01" type="CIFS" description="Windchill Vaults">
+				<location>\\coconnasfrpb01.corporate.eu.astrium.corp\PDMPROD_VAULT01</location>
+				<comment>1To</comment>
+			</Folder>
+			<Folder name="VAULT02" type="CIFS" description="Windchill Vaults">
+				<location>\\coconnasfrpb01.corporate.eu.astrium.corp\PDMPROD_VAULT02</location>
+				<comment>1To</comment>
+			</Folder>
+		</Folders>		
+		<emailTool>
+			<mailingList>ConnectWindchill - Corporate</mailingList>
+			<mailingList name="Team PERCALL">AMINNE@percallgroup.com; gmartin@percall.fr; SROUGES-MATUSIK@percallgroup.com</mailingList>
+		</emailTool>
+		<DSM>
+			<DSMCore name="DSM Core production" server="codsmfrp01.corporate.eu.astrium.corp" ip="10.49.1.21"/>
+			<DSMRobot name="DSM Robot production" server="TLSDSM1-TAL1.tls.fr.astrium.corp" ip="140.94.83.23"/>
+			<DSMRobot name="DSM Robot GOCI-II" server="tlsapv808.tls.fr.astrium.corp" ip=""/>
+		</DSM>
+	</Cluster>
+	
+	<!-- Connect Windchill NSAT -->	
+	<Cluster name="PDM-NGP" version="3.2 HF6" fullVersion="WINDCHILLM020_PHENIX4V10_NEWPDM_R3.2.HF6" instanceName="Connect Windchill NSAT" description="Connect Windchill NSAT" isProductionServer="true" WindchillControl="true">
+		<ServerURL>
+			<Icon>star-medal-gold-green.png</Icon>
+			<URL DisplayName="Connect Windchill NSAT" wtURL="true">http://pdm-ngp.tls.fr.astrium.corp:8000/Windchill</URL>
+			<URL DisplayName="Cognos8">http://pdm-ngp.tls.fr.astrium.corp:8000/cognos8</URL>
+			<URL DisplayName="Adobe LiveCycle ES3">http://tlspdmngp002.tls.fr.astrium.corp:8080/adminui/login.faces</URL>
+		</ServerURL>
+		<ServerNode name="BT1" server="tlspdmngp001.tls.fr.astrium.corp" ip="140.94.23.72">
+			<ServerDescription>Windchill DS, 1 Background MS, 1 MS, 1 Partslink</ServerDescription>
+			<Services>
+				<WDS>Windchill Directory Server</WDS>
+				<Apache>WindchillApache</Apache>
+				<MasterServerManager>WindchillMasterServerManager</MasterServerManager>
+				<Windchill>Windchill</Windchill>
+				<PartsLink>Windchill_PartsLink</PartsLink>				
+			</Services>
+		</ServerNode>
+		<ServerNode name="PDF" server="tlspdmngp002.tls.fr.astrium.corp" ip="140.94.23.79">
+			<ServerDescription>Cognos, JBOSS, CreoView</ServerDescription>
+			<Services>
+				<Cognos>Cognos 8</Cognos>
+				<Adobe>JBOSS_FOR_ADOBE_LIVECYCLE_ES3</Adobe>
+				<AdobeDB>MySQL for Adobe LiveCycle ES3</AdobeDB>				
+				<AdobeWorker>GS Worker Daemon</AdobeWorker>
+			</Services>
+		</ServerNode>		
+		<Database> 
+			<ServerName>tlspdmngp001</ServerName>
+			<ServerPort>1522</ServerPort>
+			<ServerSID>newngp</ServerSID>
+		</Database>		
+		<ActiveDirectory>
+			<adURL>ldap://windchill-ldapsat.tls.fr.astrium.corp:3268/</adURL>
+			<adSearchBase>dc=astrium,dc=corp</adSearchBase>
+			<adBranch>memberOf=CN=Windchill_Production, OU=Windchill, OU=Windchill_Gestion, OU=Application Access, OU=Company Groups, DC=fr, dc=astrium,dc=corp</adBranch>
+		</ActiveDirectory>
+		<Logs>                       
+            <log node="BT1" category="Apache" folder="E:\PRODUCT\ptc\Windchill_10.1\WorkArea\LOG\Apache\tlspdmngp001.tls.fr.astrium.corp\" archive="" />                        
+            <log node="BT1" category="Windchill" folder="E:\PRODUCT\ptc\Windchill_10.1\WorkArea\LOG\Windchill\tlspdmngp001.tls.fr.astrium.corp\" archive="" />
+		</Logs>
+		<Folders>
+			<Folder name="SOLR" type="CIFS" description="Windchill SOLR">
+				<location>E:\PRODUCT\ptc\Windchill_10.1\WorkArea\SOLR</location>
+				<comment></comment>
+			</Folder>
+			<Folder type="CIFS" description="Windchill TEMP">
+				<location>E:\PRODUCT\ptc\Windchill_10.1\WorkArea\TEMP\temp</location>
+				<comment></comment>
+			</Folder>
+			<Folder name="VAULT" type="CIFS" description="Windchill Vaults">
+				<location>E:\PRODUCT\ptc\Windchill_10.1\WorkArea\VAULT\vaults</location>
+				<comment></comment>
+			</Folder>
+		</Folders>
+		<emailTool>
+			<mailingList>ConnectWindchill - NSAT</mailingList>
+			<mailingList name="Team PERCALL">AMINNE@percallgroup.com; gmartin@percall.fr; SROUGES-MATUSIK@percallgroup.com</mailingList>
+		</emailTool>
+		<DSM>
+			<DSMCore name="DSM Core NSAT production" server="tlspdmngp002.tls.fr.astrium.corp" ip="140.94.23.79"/>
+		</DSM>				
+	</Cluster>	
+
+	<!-- cWT DRSF Production -->	
+	<Cluster name="DRSFPDM-PROD" version="3.2 HF6" fullVersion="WINDCHILLM020_PHENIX4V10_NEWPDM_R3.2 HF6" instanceName="Connect Windchill DRSF Production"  description="Connect Windchill DRSF Production" isProductionServer="true" WindchillControl="true">
+		<ServerURL>
+			<Icon>star-medal-gold-green.png</Icon>
+			<URL DisplayName="Connect Windchill DRSF Production (no SSL)" wtURL="true">http://drsfpdm-prod.satfr2.fr.astrium.corp:8000/Windchill</URL>
+			<URL DisplayName="Connect Windchill DRSF Production (SSL)" wtURL="true">https://drsfpdm-prod.satfr2.fr.astrium.corp:8080/Windchill</URL>
+			<URL DisplayName="Cognos8">http://drsfpdm-prod.satfr2.fr.astrium.corp:8000/cognos8</URL>
+			<URL DisplayName="Adobe LiveCycle ES3">http://tlspdfrpv06.satfr2.fr.astrium.corp:8080/adminui/login.faces</URL>
+			<URL DisplayName="Web Services WT">http://drsfpdm-prod.satfr2.fr.astrium.corp:8000/Windchill/servlet/RMWebServices</URL>
+		</ServerURL>
+		<ServerNode name="BT1" server="tlspdfrpv01.satfr2.fr.astrium.corp" ip="140.94.232.87">
+			<ServerDescription>Windchill DS, 1 Background MS, 3 MS, 1 Partslink</ServerDescription>
+			<Services>
+				<WDS>Windchill Directory Server</WDS>
+				<Apache>WindchillApache</Apache>
+				<MasterServerManager>WindchillMasterServerManager</MasterServerManager>
+				<Windchill>Windchill</Windchill>
+				<PartsLink>Windchill_PartsLink</PartsLink>				
+			</Services>
+		</ServerNode>
+		<ServerNode name="BT2(outOfScope)" server="tlspdfrpv02.satfr2.fr.astrium.corp" ip="140.94.232.89">
+			<ServerDescription>Windchill DS Slave, 1 Background, 3 MS, 1 cognos Gateway</ServerDescription>
+			<Services>
+				<WDS>Windchill Directory Server</WDS>
+				<Apache>WindchillApache</Apache>				
+				<Windchill>Windchill</Windchill>
+			</Services>
+		</ServerNode>
+		<ServerNode name="FE1(outOfScope for DSM Core)" server="tlspdfrpv03.satfr2.fr.astrium.corp" ip="140.94.232.90">
+			<ServerDescription>3 MS</ServerDescription>
+			<Services>			
+				<Apache>WindchillApache</Apache>				
+				<Windchill>Windchill</Windchill>
+			</Services>			
+		</ServerNode>
+		<ServerNode name="FE2(outOfScope)" server="tlspdfrpv04.satfr2.fr.astrium.corp" ip="140.94.232.91">
+			<ServerDescription>3 MS</ServerDescription>
+			<Services>
+				<Apache>WindchillApache</Apache>				
+				<Windchill>Windchill</Windchill>
+			</Services>
+		</ServerNode>	
+		<ServerNode name="MIG1" server="tlspdfrpv05.satfr2.fr.astrium.corp" ip="140.94.232.92">
+			<ServerDescription>3 MS</ServerDescription>
+			<Services>			
+				<Apache>WindchillApache</Apache>				
+				<Windchill>Windchill</Windchill>
+			</Services>			
+		</ServerNode>		
+		<ServerNode name="PDF" server="tlspdfrpv06.satfr2.fr.astrium.corp" ip="140.94.232.93">
+			<ServerDescription>Cognos, JBOSS, CreoView</ServerDescription>
+			<Services>
+				<Cognos>Cognos 8</Cognos>
+				<Adobe>JBOSS_FOR_ADOBE_LIVECYCLE_ES3</Adobe>
+				<AdobeDB>MySQL for Adobe LiveCycle ES3</AdobeDB>				
+				<AdobeWorker>GS Worker Daemon</AdobeWorker>
+			</Services>		
+		</ServerNode>
+		<Database>
+			<ServerName>tlsdbfrpv01.satfr2.fr.astrium.corp</ServerName>
+			<ServerPort>1543</ServerPort>
+			<ServerSID>SID: DRSFWTP Schema: windchill/windchill wbr/wbr partslink/partslink</ServerSID>
+		</Database>
+		<ActiveDirectory>
+			<adURL>ldap://ldaps_single.satfr2.fr.astrium.corp:389  (TLSCDV200.satfr2.fr.astrium.corp  => 140.94.232.22)</adURL>  
+			<adSearchBase>dc=xx,dc=astrium,dc=corp</adSearchBase>
+			<adBranch>memberOf=CN=Windchill_Production, OU=Windchill, OU=Windchill_Gestion, OU=Application Access, OU=Company Groups, DC=fr, dc=astrium,dc=corp</adBranch>
+		</ActiveDirectory>
+		<Logs>                       
+            <log node="BT1" category="Apache" folder="\\tlspdfrpv01.satfr2.fr.astrium.corp\ptc\WorkArea\LOGS\Apache\tlspdfrpv01.satfr2.fr.astrium.corp\" archive="\\tlspdfrpv07.satfr2.fr.astrium.corp\DRSFPDMPROD_LOG\Apache\tlspdfrpv01.satfr2.fr.astrium.corp\" />                        
+            <log node="BT2" category="Apache" folder="\\tlspdfrpv02.satfr2.fr.astrium.corp\ptc\WorkArea\LOGS\Apache\tlspdfrpv02.satfr2.fr.astrium.corp\" archive="\\tlspdfrpv07.satfr2.fr.astrium.corp\DRSFPDMPROD_LOG\Apache\tlspdfrpv02.satfr2.fr.astrium.corp\" />
+            <log node="FE1" category="Apache" folder="\\tlspdfrpv03.satfr2.fr.astrium.corp\ptc\WorkArea\LOGS\Apache\tlspdfrpv03.satfr2.fr.astrium.corp\" archive="\\tlspdfrpv07.satfr2.fr.astrium.corp\DRSFPDMPROD_LOG\Apache\tlspdfrpv03.satfr2.fr.astrium.corp\" />
+            <log node="FE2" category="Apache" folder="\\tlspdfrpv04.satfr2.fr.astrium.corp\ptc\WorkArea\LOGS\Apache\tlspdfrpv04.satfr2.fr.astrium.corp\" archive="\\tlspdfrpv07.satfr2.fr.astrium.corp\DRSFPDMPROD_LOG\Apache\tlspdfrpv04.satfr2.fr.astrium.corp\" />
+            <log node="MIG1" category="Apache" folder="\\tlspdfrpv05.satfr2.fr.astrium.corp\ptc\WorkArea\LOGS\Apache\tlspdfrpv05.satfr2.fr.astrium.corp\" archive="\\tlspdfrpv07.satfr2.fr.astrium.corp\DRSFPDMPROD_LOG\Apache\tlspdfrpv05.satfr2.fr.astrium.corp\" />
+
+
+            <log node="BT1" category="Windchill" folder="\\tlspdfrpv01.satfr2.fr.astrium.corp\ptc\WorkArea\LOGS\Windchill\tlspdfrpv01.satfr2.fr.astrium.corp\" archive="\\tlspdfrpv07.satfr2.fr.astrium.corp\DRSFPDMPROD_LOG\Windchill\tlspdfrpv01.satfr2.fr.astrium.corp\" />
+            <log node="BT2" category="Windchill" folder="\\tlspdfrpv02.satfr2.fr.astrium.corp\ptc\WorkArea\LOGS\Windchill\tlspdfrpv02.satfr2.fr.astrium.corp\" archive="\\tlspdfrpv07.satfr2.fr.astrium.corp\DRSFPDMPROD_LOG\Windchill\tlspdfrpv02.satfr2.fr.astrium.corp\" />
+            <log node="FE1" category="Windchill" folder="\\tlspdfrpv03.satfr2.fr.astrium.corp\ptc\WorkArea\LOGS\Windchill\tlspdfrpv03.satfr2.fr.astrium.corp\" archive="\\tlspdfrpv07.satfr2.fr.astrium.corp\DRSFPDMPROD_LOG\Windchill\tlspdfrpv03.satfr2.fr.astrium.corp\" />
+            <log node="FE2" category="Windchill" folder="\\tlspdfrpv04.satfr2.fr.astrium.corp\ptc\WorkArea\LOGS\Windchill\tlspdfrpv04.satfr2.fr.astrium.corp\" archive="\\tlspdfrpv07.satfr2.fr.astrium.corp\DRSFPDMPROD_LOG\Windchill\tlspdfrpv04.satfr2.fr.astrium.corp\" />
+            <log node="MIG1" category="Windchill" folder="\\tlspdfrpv05.satfr2.fr.astrium.corp\ptc\WorkArea\LOGS\Windchill\tlspdfrpv05.satfr2.fr.astrium.corp\" archive="\\tlspdfrpv07.satfr2.fr.astrium.corp\DRSFPDMPROD_LOG\Windchill\tlspdfrpv05.satfr2.fr.astrium.corp\" />                        
+
+		</Logs>
+		<Folders>
+			<Folder name="SOLR" type="CIFS" description="Windchill SOLR">
+				<location>\\tlspdfrpv07.satfr2.fr.astrium.corp\PROD_SOLR</location>
+				<comment>200Go</comment>
+			</Folder>
+			<Folder type="CIFS" description="Windchill TEMP">
+				<location>\\tlspdfrpv07.satfr2.fr.astrium.corp\PROD_TEMP</location>
+				<comment>200Go</comment>
+			</Folder>
+			<Folder name="VAULT" type="CIFS" description="Windchill Vaults">
+				<location>\\tlspdfrpv07.satfr2.fr.astrium.corp\PROD_VAULTS</location>
+				<comment>1To</comment>
+			</Folder>
+			<Folder name="VAULT01" type="CIFS" description="Windchill Vaults">
+				<location>\\tlspdfrpv07.satfr2.fr.astrium.corp\PROD_LOGS</location>
+				<comment>1To</comment>
+			</Folder>
+		</Folders>	
+		<emailTool>
+			<mailingList>ConnectWindchillDRSF-Production</mailingList>
+		</emailTool>
+	</Cluster>	
+
+	
+
+	
+	<!-- cWT DRSF Migration -->	
+	<Cluster name="DRSFPDM-MIG" version="3.2 HF8" fullVersion="WINDCHILLM020_PHENIX4V10_NEWPDM_R3.2 HF8" instanceName="Connect Windchill DRSF Migration"  description="Connect Windchill DRSF Migration" isProductionServer="false" WindchillControl="true">
+		<ServerURL>
+			<Icon>star-medal-gold-green.png</Icon>
+			<URL DisplayName="Connect Windchill DRSF Migration (no SSL)" wtURL="true">http://drsfpdm-mig.satfr2.fr.astrium.corp:8000/Windchill</URL>
+			<URL DisplayName="Connect Windchill DRSF Migration (SSL)" wtURL="true">https://drsfpdm-mig.satfr2.fr.astrium.corp:8080/Windchill</URL>
+			<URL DisplayName="Cognos8 N/A">N/A</URL>
+			<URL DisplayName="Adobe LiveCycle ES3 N/A">N/A</URL>
+			<URL DisplayName="Web Services WT">http://drsfpdm-mig.satfr2.fr.astrium.corp:8000/Windchill/servlet/RMWebServices</URL>
+		</ServerURL>
+		<ServerNode name="BT1" server="tlspdfrmv01.satfr2.fr.astrium.corp" ip="140.94.232.95">
+			<ServerDescription>Windchill DS, 1 Background MS, 3 MS, 1 Partslink</ServerDescription>
+			<Services>
+				<WDS>Windchill Directory Server</WDS>
+				<Apache>WindchillApache</Apache>
+				<MasterServerManager>WindchillMasterServerManager</MasterServerManager>
+				<Windchill>Windchill</Windchill>
+				<PartsLink>Windchill_PartsLink</PartsLink>				
+			</Services>
+		</ServerNode>
+		<ServerNode name="BT2(outOfScope)" server="tlspdfrmv02.satfr2.fr.astrium.corp" ip="140.94.232.96">
+			<ServerDescription>Windchill DS Slave, 1 Background, 3 MS, 1 cognos Gateway</ServerDescription>
+			<Services>
+				<WDS>Windchill Directory Server</WDS>
+				<Apache>WindchillApache</Apache>				
+				<Windchill>Windchill</Windchill>
+			</Services>
+		</ServerNode>
+		<ServerNode name="FE1(outOfScope)" server="tlspdfrmv03.satfr2.fr.astrium.corp" ip="140.94.232.97">
+			<ServerDescription>3 MS</ServerDescription>
+			<Services>			
+				<Apache>WindchillApache</Apache>				
+				<Windchill>Windchill</Windchill>
+			</Services>			
+		</ServerNode>
+		<ServerNode name="MIG1" server="tlspdfrmv04.satfr2.fr.astrium.corp" ip="140.94.232.98">
+			<ServerDescription>3 MS</ServerDescription>
+			<Services>			
+				<Apache>WindchillApache</Apache>				
+				<Windchill>Windchill</Windchill>
+			</Services>			
+		</ServerNode>		
+		<ServerNode name="PDF (outOfScope)" server="tlspdfrmv05.satfr2.fr.astrium.corp" ip="140.94.232.99">
+			<ServerDescription>Cognos, JBOSS, CreoView</ServerDescription>
+			<Services>
+				<Cognos>Cognos 8</Cognos>
+				<Adobe>JBOSS_FOR_ADOBE_LIVECYCLE_ES3</Adobe>
+				<AdobeDB>MySQL for Adobe LiveCycle ES3</AdobeDB>				
+				<AdobeWorker>GS Worker Daemon</AdobeWorker>
+			</Services>		
+		</ServerNode>
+		<Database>
+			<ServerName>tlsdbfrmv01.satfr2.fr.astrium.corp</ServerName>
+			<ServerPort>xxxx</ServerPort>
+			<ServerSID>windchill/windchill wbr/wbr partslink/partslink</ServerSID>
+		</Database>
+		<ActiveDirectory>
+			<adURL>ldap://ldaps_single.satfr2.fr.astrium.corp:389  (TLSCDV200.satfr2.fr.astrium.corp  => 140.94.232.22)</adURL>  
+			<adSearchBase>dc=xx,dc=astrium,dc=corp</adSearchBase>
+			<adBranch>memberOf=CN=Windchill_Migration, OU=Windchill, OU=Windchill_Gestion, OU=Application Access, OU=Company Groups, DC=fr, dc=astrium,dc=corp</adBranch>
+		</ActiveDirectory>
+		<Logs>                       
+            <log node="BT1" category="Apache" folder="\\tlspdfrmv01.satfr2.fr.astrium.corp\ptc\WorkArea\LOGS\Apache\tlspdfrmv01.satfr2.fr.astrium.corp\" archive="\\tlspdfrXXXX.satfr2.fr.astrium.corp\DRSFPDMPROD_LOG\Apache\tlspdfrmv01.satfr2.fr.astrium.corp\" />                        
+            <log node="BT2" category="Apache" folder="\\tlspdfrmv02.satfr2.fr.astrium.corp\ptc\WorkArea\LOGS\Apache\tlspdfrmv02.satfr2.fr.astrium.corp\" archive="\\tlspdfrXXXX.satfr2.fr.astrium.corp\DRSFPDMPROD_LOG\Apache\tlspdfrmv02.satfr2.fr.astrium.corp\" />
+            <log node="FE1" category="Apache" folder="\\tlspdfrmv03.satfr2.fr.astrium.corp\ptc\WorkArea\LOGS\Apache\tlspdfrmv03.satfr2.fr.astrium.corp\" archive="\\tlspdfrXXXX.satfr2.fr.astrium.corp\DRSFPDMPROD_LOG\Apache\tlspdfrmv03.satfr2.fr.astrium.corp\" />
+            <log node="MIG1" category="Apache" folder="\\tlspdfrmv04.satfr2.fr.astrium.corp\ptc\WorkArea\LOGS\Apache\tlspdfrmv04.satfr2.fr.astrium.corp\" archive="\\tlspdfrXXXX.satfr2.fr.astrium.corp\DRSFPDMPROD_LOG\Apache\tlspdfrmv04.satfr2.fr.astrium.corp\" />
+
+
+            <log node="BT1" category="Windchill" folder="\\tlspdfrmv01.satfr2.fr.astrium.corp\ptc\WorkArea\LOGS\Windchill\tlspdfrmv01.satfr2.fr.astrium.corp\" archive="\\tlspdfrXXXX.satfr2.fr.astrium.corp\DRSFPDMPROD_LOG\Windchill\tlspdfrmv01.satfr2.fr.astrium.corp\" />
+            <log node="BT2" category="Windchill" folder="\\tlspdfrmv02.satfr2.fr.astrium.corp\ptc\WorkArea\LOGS\Windchill\tlspdfrmv02.satfr2.fr.astrium.corp\" archive="\\tlspdfrXXXX.satfr2.fr.astrium.corp\DRSFPDMPROD_LOG\Windchill\tlspdfrmv02.satfr2.fr.astrium.corp\" />
+            <log node="FE1" category="Windchill" folder="\\tlspdfrmv03.satfr2.fr.astrium.corp\ptc\WorkArea\LOGS\Windchill\tlspdfrmv03.satfr2.fr.astrium.corp\" archive="\\tlspdfrXXXX.satfr2.fr.astrium.corp\DRSFPDMPROD_LOG\Windchill\tlspdfrmv03.satfr2.fr.astrium.corp\" />
+            <log node="MIG1" category="Windchill" folder="\\tlspdfrmv04.satfr2.fr.astrium.corp\ptc\WorkArea\LOGS\Windchill\tlspdfrmv04.satfr2.fr.astrium.corp\" archive="\\tlspdfrXXXX.satfr2.fr.astrium.corp\DRSFPDMPROD_LOG\Windchill\tlspdfrmv04.satfr2.fr.astrium.corp\" />                        
+
+		</Logs>
+		<Folders>
+			<Folder type="CIFS" description="Windchill TEMP">
+				<location>\\tlspdfrmv05.satfr2.fr.astrium.corp\MIG_TEMP</location>
+				<comment>200Go</comment>
+			</Folder>
+			<Folder name="VAULT" type="CIFS" description="Windchill Vaults">
+				<location>\\tlspdfrmv05.satfr2.fr.astrium.corp\MIG_VAULTS</location>
+				<comment>1To</comment>
+			</Folder>
+		</Folders>					
+	</Cluster>	
+
+
+		
+	<!-- cWT DE -->
+	<Cluster name="PDM-DEPROD01" version="3.2 HF7" fullVersion="WINDCHILLM020_PHENIX4V10_NEWPDM_R3.2_HF7" instanceName="Connect Windchill DE"  description="Connect Windchill DE" isProductionServer="true" WindchillControl="true">
+		<ServerURL>
+			<Icon>star-medal-gold-green.png</Icon>
+			<URL DisplayName="Connect Windchill Production DE" wtURL="true">http://pdm-deprod01.den.denroot.astrium.corp:8000/Windchill</URL>
+			<URL DisplayName="Cognos8">http://pdm-deprod01.den.denroot.astrium.corp:8000/cognos8</URL>
+			<!-- <URL DisplayName="Adobe LiveCycle ES3">http://coipfrp03.corporate.eu.astrium.corp:8080/adminui/login.faces</URL> -->
+		</ServerURL>
+		<ServerNode name="BT1" server="otnden-wca01.den.denroot.astrium.corp" ip="">
+			<ServerDescription>Windchill DS, 1 Background MS, 1 MS</ServerDescription>
+			<Services>
+				<WDS>Windchill Directory Server</WDS>
+				<Apache>WindchillApache</Apache>
+				<!-- MasterServerManager>WindchillMasterServerManager</MasterServerManager-->
+				<Windchill>Windchill</Windchill>
+				<!-- PartsLink>Windchill_PartsLink</PartsLink-->				
+			</Services>
+		</ServerNode>
+		<ServerNode name="PDF" server="otnden-wci01.den.denroot.astrium.corp" ip="10.190.16.82">
+			<ServerDescription>Cognos, JBOSS, CreoView</ServerDescription>
+			<Services>
+				<Cognos>Cognos 8</Cognos>
+				<Adobe>JBOSS_FOR_ADOBE_LIVECYCLE_ES3</Adobe>
+				<AdobeDB>MySQL for Adobe LiveCycle ES3</AdobeDB>				
+				<AdobeWorker>GS Worker Daemon</AdobeWorker>
+			</Services>		
+		</ServerNode>
+		<Database>
+			<ServerName>fowsqlcv4.de.astrium.corp</ServerName>
+			<ServerPort>1521</ServerPort>
+			<ServerSID>wind</ServerSID>
+		</Database>
+		<ActiveDirectory>
+			<adURL>ldap://otncd001.de.astrium.corp:389</adURL>
+			<adSearchBase>dc=de,dc=astrium,dc=corp</adSearchBase>
+			<adBranch>memberOf=OU=WINDCHILL_PRODUCTION,OU=Application Access,OU=Company Groups,DC=de,dc=astrium,dc=corp</adBranch>
+		</ActiveDirectory>
+		<Logs>                       
+            <log node="BT1" category="Apache" folder="\\otnden-wca01.den.denroot.astrium.corp\PTC\NewPDMDE\Windchill_10.1\Apache\logs\" archive="" />                        
+            <log node="BT1" category="Windchill" folder="\\otnden-wca01.den.denroot.astrium.corp\PTC\Windchill_10.1\Windchill\logs\" archive="" />
+		</Logs>
+		<Folders>
+			<Folder name="SOLR" type="CIFS" description="Windchill SOLR">
+				<location></location>
+				<comment></comment>
+			</Folder>
+			<Folder type="CIFS" description="Windchill TEMP">
+				<location></location>
+				<comment></comment>
+			</Folder>
+			<Folder name="VAULT" type="CIFS" description="Windchill Vaults">
+				<location></location>
+				<comment></comment>
+			</Folder>
+		</Folders>				
+		<emailTool>
+			<mailingList>ConnectWindchill - DE</mailingList>
+		</emailTool>
+	</Cluster>
+
+	
+	<!-- Connect Windchill Wave -->
+	<Cluster name="PDM-WAVE01" version="3.3" fullVersion="WINDCHILLM020_PHENIX4V10_NEWPDM_R3.3" instanceName="Connect Windchill Wave" description="Connect Windchill Wave" isProductionServer="false" WindchillControl="true">
+		<ServerURL>
+			<Icon>star-medal-gold-orange.png</Icon>
+			<URL DisplayName="Connect Windchill Wave" wtURL="true">http://pdm-wave01.corporate.eu.astrium.corp:8000/Windchill</URL>
+			<URL DisplayName="Cognos8">http://pdm-wave01.corporate.eu.astrium.corp:8000/cognos8</URL>
+			<URL DisplayName="Adobe LiveCycle ES3">http://copdfri16.corporate.eu.astrium.corp:8080/adminui/login.faces</URL>
+			<URL DisplayName="JConsole">controlRole@copdfri12.corporate.eu.astrium.corp:6049</URL>	
+		    <URL DisplayName="Web Services WT">http://pdm-wave01.corporate.eu.astrium.corp:8000/Windchill/servlet/RMWebServices</URL>			
+		</ServerURL>
+		<ServerNode name="BT1" server="copdfri12.corporate.eu.astrium.corp" ip="10.49.1.49">
+			<ServerDescription>Windchill DS, 1 Background MS, 3 MS, 1 Partslink</ServerDescription>
+			<Services>
+				<WDS>Windchill Directory Server</WDS>
+				<Apache>WindchillApache</Apache>
+				<MasterServerManager>WindchillMasterServerManager</MasterServerManager>
+				<Windchill>Windchill</Windchill>
+				<PartsLink>Windchill_PartsLink</PartsLink>
+			</Services>
+		</ServerNode>
+		<ServerNode name="BT2" server="copdfri13.corporate.eu.astrium.corp" ip="10.49.1.50">
+			<ServerDescription>Windchill DS Slave, 1 Background, 3 MS, 1 cognos Gateway</ServerDescription>
+			<Services>
+				<WDS>Windchill Directory Server</WDS>
+				<Apache>WindchillApache</Apache>				
+				<Windchill>Windchill</Windchill>
+			</Services>
+		</ServerNode>
+		<ServerNode name="FE1" server="copdfri14.corporate.eu.astrium.corp" ip="10.49.1.51">
+			<ServerDescription>3 MS</ServerDescription>
+			<Services>
+				<Apache>WindchillApache</Apache>				
+				<Windchill>Windchill</Windchill>
+			</Services>
+		</ServerNode>
+		<ServerNode name="FE2" server="copdfri15.corporate.eu.astrium.corp" ip="10.49.1.52">
+			<ServerDescription>3 MS</ServerDescription>
+			<Services>
+				<Apache>WindchillApache</Apache>				
+				<Windchill>Windchill</Windchill>
+			</Services>
+		</ServerNode>
+		<ServerNode name="PDF" server="copdfri16.corporate.eu.astrium.corp" ip="10.49.1.53">
+			<ServerDescription>Cognos, JBOSS, CreoView</ServerDescription>
+			<Services>
+				<Cognos>Cognos 8</Cognos>
+				<Adobe>JBOSS_FOR_ADOBE_LIVECYCLE_ES3</Adobe>
+				<AdobeDB>MySQL for Adobe LiveCycle ES3</AdobeDB>				
+				<AdobeWorker>GS Worker Daemon</AdobeWorker>
+			</Services>
+		</ServerNode>
+		<Database>
+			<ServerName>codbfri05.corporate.eu.astrium.corp</ServerName>
+			<ServerPort>1531</ServerPort>
+			<ServerSID>RACBD1I1</ServerSID>
+		</Database>
+		<ActiveDirectory>
+			<adURL>ldap://windchill-ldapsat.tls.fr.astrium.corp:3268/</adURL>
+			<adSearchBase>dc=astrium,dc=corp</adSearchBase>
+			<adBranch>memberOf=CN=Windchill_Integration, OU=Windchill, OU=Windchill_Gestion, OU=Application Access, OU=Company Groups, DC=fr, dc=astrium,dc=corp</adBranch>
+		</ActiveDirectory>
+		<Logs>                       
+            <log node="BT1" category="Apache" folder="\\copdfri12.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Apache\copdfri12.corporate.eu.astrium.corp\" archive="\\coconnasfrpr02.corporate.eu.astrium.corp\PDMWAVE_LOG\Apache\copdfri12.corporate.eu.astrium.corp\" />
+            <log node="BT2" category="Apache" folder="\\copdfri13.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Apache\copdfri13.corporate.eu.astrium.corp\" archive="\\coconnasfrpr02.corporate.eu.astrium.corp\PDMWAVE_LOG\Apache\copdfri13.corporate.eu.astrium.corp\" />
+            <log node="FE1" category="Apache" folder="\\copdfri14.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Apache\copdfri14.corporate.eu.astrium.corp\" archive="\\coconnasfrpr02.corporate.eu.astrium.corp\PDMWAVE_LOG\Apache\copdfri14.corporate.eu.astrium.corp\" />
+            <log node="FE2" category="Apache" folder="\\copdfri15.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Apache\copdfri15.corporate.eu.astrium.corp\" archive="\\coconnasfrpr02.corporate.eu.astrium.corp\PDMWAVE_LOG\Apache\copdfri15.corporate.eu.astrium.corp\" />
+                        
+            <log node="BT1" category="Windchill" folder="\\copdfri12.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Windchill\copdfri12.corporate.eu.astrium.corp\" archive="\\coconnasfrpr02.corporate.eu.astrium.corp\PDMWAVE_LOG\Windchill\copdfri12.corporate.eu.astrium.corp\" />
+            <log node="BT2" category="Windchill" folder="\\copdfri13.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Windchill\copdfri13.corporate.eu.astrium.corp\" archive="\\coconnasfrpr02.corporate.eu.astrium.corp\PDMWAVE_LOG\Windchill\copdfri13.corporate.eu.astrium.corp\" />
+            <log node="FE1" category="Windchill" folder="\\copdfri14.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Windchill\copdfri14.corporate.eu.astrium.corp\" archive="\\coconnasfrpr02.corporate.eu.astrium.corp\PDMWAVE_LOG\Windchill\copdfri14.corporate.eu.astrium.corp\" />
+            <log node="FE2" category="Windchill" folder="\\copdfri15.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Windchill\copdfri15.corporate.eu.astrium.corp\" archive="\\coconnasfrpr02.corporate.eu.astrium.corp\PDMWAVE_LOG\Windchill\copdfri15.corporate.eu.astrium.corp\" />
+		</Logs>
+		<Folders>
+			<Folder name="SOLR" type="CIFS" description="Windchill SOLR">
+				<location>\\coconnasfrpr02.corporate.eu.astrium.corp\PDMWAVE_SOLR</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder type="CIFS" description="Windchill TEMP">
+				<location>\\coconnasfrpr02.corporate.eu.astrium.corp\PDMWAVE_TEMP</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder name="VAULT" type="CIFS" description="Windchill Vaults">
+				<location>\\coconnasfrpr02.corporate.eu.astrium.corp\PDMWAVE_VAULT</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder type="ON SERVER" description="COPDFRI12 (BT1)">
+				<location>\\copdfri12.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>	
+			<Folder type="ON SERVER" description="COPDFRI13 (BT2)">
+				<location>\\copdfri13.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>	
+			<Folder type="ON SERVER" description="COPDFRI14 (FE1)">
+				<location>\\copdfri14.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>	
+			<Folder type="ON SERVER" description="COPDFRI15 (FE2)">
+				<location>\\copdfri15.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>	
+			<Folder type="ON SERVER" description="COPDFRI16 (PDF)">
+				<location>\\copdfri16.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>	
+		</Folders>
+		<emailTool>
+			<mailingList>ConnectWindchill - Wave</mailingList>
+			<mailingList name="Team PERCALL">AMINNE@percallgroup.com; gmartin@percall.fr; SROUGES-MATUSIK@percallgroup.com</mailingList>
+		</emailTool>
+		<DSM>
+			<DSMCore name="DSM Core validation" server="codsmfri02.corporate.eu.astrium.corp" ip="10.49.1.20"/>
+			<DSMRobot name="DSM Robot validation" server="TLSDSM2-TAL1.tls.fr.astrium.corp" ip=""/>
+		</DSM>
+	</Cluster>
+	
+	<!-- Connect Windchill Validation -->
+	<Cluster name="PDM-VAL02" version="3.2 HF8" fullVersion="WINDCHILLM020_PHENIX4V10_NEWPDM_R3.2_HF8" instanceName="Connect Windchill Validation" description="Connect Windchill Validation" isProductionServer="false" WindchillControl="true">	
+		<ServerURL>
+			<Icon>star-medal-gold-orange.png</Icon>
+			<URL DisplayName="Connect Windchill Validation" wtURL="true">http://pdm-val02.corporate.eu.astrium.corp:8000/Windchill</URL>
+			<URL DisplayName="Connect Windchill Validation (SSL)" wtURL="true">https://pdm-val02.corporate.eu.astrium.corp:8080/Windchill</URL>
+			<URL DisplayName="Cognos8">http://pdm-val02.corporate.eu.astrium.corp:8000/cognos8</URL>
+			<URL DisplayName="Adobe LiveCycle ES3">http://coipfrp05.corporate.eu.astrium.corp:8080/adminui/login.faces</URL>
+			<URL DisplayName="Web Services WT">http://pdm-val02.corporate.eu.astrium.corp:8000/Windchill/servlet/RMWebServices</URL>
+		</ServerURL>		
+		<ServerNode name="BT1" server="copdfri10.corporate.eu.astrium.corp" ip="10.49.1.35">
+			<ServerDescription>Windchill DS, 1 Background MS, 3 MS, 1 Partslink</ServerDescription>
+			<Services>		
+				<WDS>Windchill Directory Server</WDS>
+				<Apache>WindchillApache</Apache>
+				<MasterServerManager>WindchillMasterServerManager</MasterServerManager>
+				<Windchill>Windchill</Windchill>
+				<PartsLink>Windchill_PartsLink</PartsLink>
+			</Services>
+		</ServerNode>
+		<ServerNode name="BT2" server="copdfrp07.corporate.eu.astrium.corp" ip="10.49.0.129">
+			<ServerDescription>Windchill DS Slave, 1 Background Solr, 3 MS, 1 cognos Gateway</ServerDescription>
+			<Services>
+				<Apache>WindchillApache</Apache>
+				<Windchill>Windchill</Windchill>
+			</Services>
+		</ServerNode>
+		<ServerNode name="FE1" server="copdfri11.corporate.eu.astrium.corp" ip="10.49.1.36">
+			<ServerDescription>3MS</ServerDescription>
+			<Services>
+				<Apache>WindchillApache</Apache>
+				<Windchill>Windchill</Windchill>
+			</Services>
+		</ServerNode>
+		<ServerNode name="PDF" server="coipfrp05.corporate.eu.astrium.corp" ip="10.49.1.23">
+			<ServerDescription>Cognos, JBOSS, CreoView</ServerDescription>
+			<Services>
+				<Cognos>Cognos 8</Cognos>
+				<Adobe>JBOSS_FOR_ADOBE_LIVECYCLE_ES4</Adobe>
+				<AdobeDB>MySQL for Adobe LiveCycle ES4</AdobeDB>				
+				<AdobeWorker>GS Worker Daemon</AdobeWorker>				
+			</Services> 
+		</ServerNode>	
+		<Database>
+			<ServerName>RAC NON PROD: codbfriclu02-scan.corporate.eu.astrium.corp</ServerName>
+			<ServerPort>1523</ServerPort>
+			<ServerSID>SERVICE_NAME=PDMINT  (SERVICE_NAME)</ServerSID>
+		</Database>	
+		<Database>
+			<ServerName>----Server RAC1 :  codbfri07.corporate.eu.astrium.corp (10.49.1.88)</ServerName>
+			<ServerPort>xxxx</ServerPort>
+			<ServerSID>[SCHEMA]_v: windchill_v,partslink_v,wbr_v</ServerSID>
+		</Database>
+		<Database>
+			<ServerName>----Server RAC2 :  codbfri08.corporate.eu.astrium.corp (10.49.1.89)</ServerName>
+			<ServerPort>xxxx</ServerPort>
+			<ServerSID>[SCHEMA]_v: windchill_v,partslink_v,wbr_v</ServerSID>
+		</Database>
+		<ActiveDirectory>
+			<adURL>ldap://windchill-ldapsat.tls.fr.astrium.corp:3268/</adURL>
+			<adSearchBase>dc=astrium,dc=corp</adSearchBase>
+			<adBranch>memberOf=CN=Windchill_Integration, OU=Windchill, OU=Windchill_Gestion, OU=Application Access, OU=Company Groups, DC=fr, dc=astrium,dc=corp</adBranch>
+		</ActiveDirectory>
+		<Logs>                       
+            <log node="BT1" category="Apache" folder="\\copdfri10.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Apache\copdfri10.corporate.eu.astrium.corp\" archive="\\coconnasfrpr02.corporate.eu.astrium.corp\MIGFRI_VAULT\LOGS\Apache\copdfri10.corporate.eu.astrium.corp\" />
+            <log node="BT2" category="Apache" folder="\\copdfrp07.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Apache\copdfrp07.corporate.eu.astrium.corp\" archive="\\coconnasfrpr02.corporate.eu.astrium.corp\MIGFRI_VAULT\LOGS\Apache\copdfrp07.corporate.eu.astrium.corp\" />
+            <log node="FE1" category="Apache" folder="\\copdfri11.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Apache\copdfri11.corporate.eu.astrium.corp\" archive="\\coconnasfrpr02.corporate.eu.astrium.corp\MIGFRI_VAULT\LOGS\Apache\copdfri11.corporate.eu.astrium.corp\" />
+			<log node="MIG1" category="Apache" folder="\\coplfrt03.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Apache\coplfrt03.corporate.eu.astrium.corp\" archive="\\coconnasfrpr02.corporate.eu.astrium.corp\MIGFRI_VAULT\LOGS\Apache\coplfrt03.corporate.eu.astrium.corp\" />
+                        
+            <log node="BT1" category="Windchill" folder="\\copdfri10.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Windchill\copdfri10.corporate.eu.astrium.corp\" archive="\\coconnasfrpr02.corporate.eu.astrium.corp\MIGFRI_VAULT\LOGS\Windchill\copdfri10.corporate.eu.astrium.corp\" />
+            <log node="BT2" category="Windchill" folder="\\copdfrp07.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Windchill\copdfrp07.corporate.eu.astrium.corp\" archive="\\coconnasfrpr02.corporate.eu.astrium.corp\MIGFRI_VAULT\LOGS\Windchill\copdfrp07.corporate.eu.astrium.corp\" />
+            <log node="FE1" category="Windchill" folder="\\copdfri11.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Windchill\copdfri11.corporate.eu.astrium.corp\" archive="\\coconnasfrpr02.corporate.eu.astrium.corp\MIGFRI_VAULT\LOGS\Windchill\copdfri11.corporate.eu.astrium.corp\" />
+            <log node="MIG1" category="Windchill" folder="\\coplfrt03.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Windchill\coplfrt03.corporate.eu.astrium.corp\" archive="\\coconnasfrpr02.corporate.eu.astrium.corp\MIGFRI_VAULT\LOGS\Windchill\coplfrt03.corporate.eu.astrium.corp\" />
+		</Logs>
+		<Folders>
+			<Folder name="SOLR" type="CIFS" description="Windchill SOLR">
+				<location>\\coconnasfrpr02.corporate.eu.astrium.corp\MIGFRI_VAULT\SOLR</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder name="TEMP" type="CIFS" description="Windchill TEMP">
+				<location>\\coconnasfrpr02.corporate.eu.astrium.corp\MIGFRI_VAULT\TEMP</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder name="VAULT" type="CIFS" description="Windchill Vaults">
+				<location>\\coconnasfrpr02.corporate.eu.astrium.corp\MIGFRI_VAULT\VAULT</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder type="Folder" description="Interface in">
+				<location>\\coasfrq02.corporate.eu.astrium.corp\WTTest\wtIn</location>
+				<comment>JMS (Tibco) -> Windchill</comment>
+			</Folder>
+			<Folder type="ON SERVER" description="COPDFRI10 (BT1)">
+				<location>\\copdfri10.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>	
+			<Folder type="ON SERVER" description="COPDFRP07 (BT2)">
+				<location>\\copdfrp07.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>	
+			<Folder type="ON SERVER" description="COPDFRI11 (FE1)">
+				<location>\\copdfri11.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>			
+			<Folder type="ON SERVER" description="COIPFRP05 (PDF)">
+				<location>\\coipfrp05.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>	
+		</Folders>
+		<emailTool>
+			<mailingList>ConnectWindchill - Validation</mailingList>
+			<mailingList name="Team PERCALL">AMINNE@percallgroup.com; gmartin@percall.fr; SROUGES-MATUSIK@percallgroup.com</mailingList>
+		</emailTool>
+		<DSM>
+			<DSMCore name="DSM Core integration" server="codsmfri01.corporate.eu.astrium.corp" ip="10.49.1.20"/>
+			<DSMRobot name="DSM Robot validation" server="TLSDSM2-TAL1.tls.fr.astrium.corp" ip=""/>
+		</DSM>
+	</Cluster>
+	
+	<!-- Connect Windchill Integration -->
+	<Cluster name="PDM-INT02" version="3.2 HF7" fullVersion="WINDCHILLM020_PHENIX4V10_NEWPDM_R3.2HF7" instanceName="Connect Windchill Integration" description="Connect Windchill Integration (rehosted from cWT Corp 2016-03-11)" isProductionServer="false" WindchillControl="true">
+		<ServerURL>
+			<Icon>star-medal-gold-green.png</Icon>
+			<URL DisplayName="Connect Windchill Integration" wtURL="true">http://pdm-int02.corporate.eu.astrium.corp:8000/Windchill</URL>
+			<URL DisplayName="Cognos8">http://pdm-int02.corporate.eu.astrium.corp:8000/cognos8</URL>
+			<URL DisplayName="Adobe LiveCycle ES3">http://coipfrp03.corporate.eu.astrium.corp:8080/adminui/login.faces</URL>
+			<URL DisplayName="Web Services WT">http://pdm-int02.corporate.eu.astrium.corp:8000/Windchill/servlet/RMWebServices</URL>
+		</ServerURL>
+		<ServerNode name="BT1" server="coplfrt01.corporate.eu.astrium.corp" ip="">
+			<ServerDescription></ServerDescription>
+			<ServerDescription>Windchill DS, 1 Background MS, 1 MS, 1 Partslink</ServerDescription>
+			<Services>		
+				<WDS>Windchill Directory Server</WDS>
+				<Apache>WindchillApache</Apache>
+				<MasterServerManager>WindchillMasterServerManager</MasterServerManager>
+				<Windchill>Windchill</Windchill>
+				<PartsLink>Windchill_PartsLink</PartsLink>
+			</Services>
+		</ServerNode>
+		<ServerNode name="PDF" server="coipfrp03.corporate.eu.astrium.corp" ip="">
+			<ServerDescription></ServerDescription>
+			<ServerDescription>Cognos, JBOSS, CreoView</ServerDescription>
+			<Services>
+				<Cognos>Cognos 8</Cognos>
+				<Adobe>JBOSS_FOR_ADOBE_LIVECYCLE_ES3</Adobe>
+				<AdobeDB>MySQL for Adobe LiveCycle ES3</AdobeDB>				
+				<AdobeWorker>GS Worker Daemon</AdobeWorker>
+			</Services>		
+		</ServerNode>
+		<Database>
+			<ServerName>RAC NON PROD: codbfriclu02-scan.corporate.eu.astrium.corp</ServerName>
+			<ServerPort>1523</ServerPort>
+			<ServerSID>SERVICE_NAME=PDMINT  (SERVICE_NAME)</ServerSID>
+		</Database>	
+		<Database>
+			<ServerName>----Server RAC1 :  codbfri07.corporate.eu.astrium.corp (10.49.1.88)</ServerName>
+			<ServerPort>xxxx</ServerPort>
+			<ServerSID>[SCHEMA]_I: windchill_i,partslink_i,wbr_i,stagingsprint_i</ServerSID>
+		</Database>
+		<Database>
+			<ServerName>----Server RAC2 :  codbfri08.corporate.eu.astrium.corp (10.49.1.89)</ServerName>
+			<ServerPort>xxxx</ServerPort>
+			<ServerSID>[SCHEMA]_I: windchill_i,partslink_i,wbr_i,stagingsprint_i</ServerSID>
+		</Database>
+		<ActiveDirectory>
+			<adURL>ldap://windchill-ldapsat.tls.fr.astrium.corp:3268/</adURL>
+			<adSearchBase>dc=astrium,dc=corp</adSearchBase>
+			<adBranch>memberOf=CN=Windchill_Production,OU=Windchill,OU=Windchill_Gestion,OU=Application Access,OU=Company Groups,DC=fr,dc=astrium,dc=corp</adBranch>
+		</ActiveDirectory>
+		<Logs>
+			<log node="BT1" category="Apache" folder="\\coplfrt01.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Apache\coplfrt01.corporate.eu.astrium.corp\" archive="\\coconnasfrpr02.corporate.eu.astrium.corp\CLU_WIND1_LOG\Apache\coplfrt01.corporate.eu.astrium.corp\" />
+			<log node="BT1" category="Windchill" folder="\\coplfrt01.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Windchill\coplfrt01.corporate.eu.astrium.corp\" archive="\\coconnasfrpr02.corporate.eu.astrium.corp\CLU_WIND1_LOG\Windchill\coplfrt01.corporate.eu.astrium.corp\" />
+		</Logs>
+		<Folders>
+			<Folder name="SOLR" type="CIFS" description="Windchill SOLR">
+				<location>\\coconnasfrpr02.corporate.eu.astrium.corp\clu_wind1_sol</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder type="CIFS" description="Windchill TEMP">
+				<location>\\coconnasfrpr02.corporate.eu.astrium.corp\clu_wind1_temp\temp</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder name="VAULT" type="CIFS" description="Windchill Vaults">
+				<location>\\coconnasfrpr02.corporate.eu.astrium.corp\clu_wind1_vault\vaults</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder type="ON SERVER" description="coplfrt01 (BT1)">
+				<location>\\coplfrt01.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>	
+			<Folder type="ON SERVER" description="coipfrp03 (PDF)">
+				<location>\\coipfrp03.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>	
+		</Folders>		
+		<emailTool>
+			<mailingList>ConnectWindchill - Integration</mailingList>
+			<mailingList name="Team PERCALL">AMINNE@percallgroup.com; gmartin@percall.fr; SROUGES-MATUSIK@percallgroup.com</mailingList>
+		</emailTool>
+	</Cluster>
+	
+	<!-- Connect Windchill Migration -->
+	<Cluster name="PDM-MIG01" version="3.2 HF7" fullVersion="WINDCHILLM020_PHENIX4V10_NEWPDM_R3.2_HF7" instanceName="Connect Windchill Migration" description="Connect Windchill Migration" isProductionServer="false" WindchillControl="true">
+		<ServerURL>
+			<Icon>star-medal-gold-green.png</Icon>
+			<URL DisplayName="Connect Windchill Migration" wtURL="true">http://pdm-mig01.corporate.eu.astrium.corp:8000/Windchill</URL>
+			<URL DisplayName="Cognos8">http://pdm-mig01.corporate.eu.astrium.corp:8000/cognos8</URL>
+			<URL DisplayName="Adobe LiveCycle ES3">http://copdfrp08.corporate.eu.astrium.corp:8080/adminui/login.faces</URL>
+			<URL DisplayName="Web Services WT">http://pdm-mig01.corporate.eu.astrium.corp:8000/Windchill/servlet/RMWebServices</URL>
+		</ServerURL>
+		<ServerNode name="BT1" server="copdfrp04.corporate.eu.astrium.corp" ip="10.49.0.125">
+			<ServerDescription>Windchill DS, 1 Background MS, 1 MS, 1 Partslink (used as FrontEnd)</ServerDescription>
+			<Services>		
+				<WDS>Windchill Directory Server</WDS>
+				<Apache>WindchillApache</Apache>
+				<MasterServerManager>WindchillMasterServerManager</MasterServerManager>
+				<Windchill>Windchill</Windchill>
+				<PartsLink>Windchill_PartsLink</PartsLink>
+				<Cognos>Cognos 8</Cognos>
+			</Services>
+		</ServerNode>
+		<ServerNode name="MIG1" server="copdfrp06.corporate.eu.astrium.corp" ip="10.49.0.127">
+			<ServerDescription>Used as Migration node. (not FE)</ServerDescription>
+			<Services>		
+				<Apache>WindchillApache</Apache>
+				<Windchill>Windchill</Windchill>
+			</Services>
+		</ServerNode>
+		<ServerNode name="PDF" server="copdfrp08.corporate.eu.astrium.corp" ip="10.49.0.130">
+			<ServerDescription>Cognos, JBOSS, CreoView</ServerDescription>
+			<Services>
+				<Adobe>JBOSS_FOR_ADOBE_LIVECYCLE_ES3</Adobe>
+				<AdobeDB>MySQL for Adobe LiveCycle ES3</AdobeDB>				
+				<AdobeWorker>GS Worker Daemon</AdobeWorker>
+			</Services>		
+		</ServerNode>
+		<Database>
+			<ServerName>RAC NON PROD: codbfriclu02-scan.corporate.eu.astrium.corp</ServerName>
+			<ServerPort>1523</ServerPort>
+			<ServerSID>SERVICE_NAME=PDMINT  (SERVICE_NAME)</ServerSID>
+		</Database>	
+		<Database>
+			<ServerName>----Server RAC1 :  codbfri07.corporate.eu.astrium.corp (10.49.1.88)</ServerName>
+			<ServerPort>xxxx</ServerPort>
+			<ServerSID>[SCHEMA]_m: windchill_m,partslink_m,wbr_m,stagingsprint_m</ServerSID>
+		</Database>
+		<Database>
+			<ServerName>----Server RAC2 :  codbfri08.corporate.eu.astrium.corp (10.49.1.89)</ServerName>
+			<ServerPort>xxxx</ServerPort>
+			<ServerSID>[SCHEMA]_m: windchill_m,partslink_m,wbr_m,stagingsprint_m</ServerSID>
+		</Database>	
+		<ActiveDirectory>
+			<adURL>ldap://windchill-ldapsat.tls.fr.astrium.corp:3268/</adURL>
+			<adSearchBase>dc=astrium,dc=corp</adSearchBase>
+			<adBranch>memberOf=CN=Windchill_Production, OU=Windchill, OU=Windchill_Gestion, OU=Application Access, OU=Company Groups, DC=fr, dc=astrium, dc=corp</adBranch>
+		</ActiveDirectory>
+		<Logs>
+			<log node="BT1" category="Apache" folder="\\copdfrp04.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Apache\copdfrp04.corporate.eu.astrium.corp\" archive="\\coconnasfrpr02.corporate.eu.astrium.corp\PDMMIG_LOG\Apache\copdfrp04.corporate.eu.astrium.corp\" />
+			<log node="FE1" category="Apache" folder="\\copdfrp06.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Apache\copdfrp06.corporate.eu.astrium.corp\" archive="\\coconnasfrpr02.corporate.eu.astrium.corp\PDMMIG_LOG\Apache\copdfrp06.corporate.eu.astrium.corp\" />
+			
+			<log node="BT1" category="Windchill" folder="\\copdfrp04.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Windchill\copdfrp04.corporate.eu.astrium.corp\" archive="\\coconnasfrpr02.corporate.eu.astrium.corp\PDMMIG_LOG\Windchill\copdfrp04.corporate.eu.astrium.corp\" />
+			<log node="FE1" category="Windchill" folder="\\copdfrp06.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Windchill\copdfrp06.corporate.eu.astrium.corp\" archive="\\coconnasfrpr02.corporate.eu.astrium.corp\PDMMIG_LOG\Windchill\copdfrp06.corporate.eu.astrium.corp\" />
+		</Logs>
+		<Folders>
+			<Folder name="SOLR" type="CIFS" description="Windchill SOLR">
+				<location>\\coconnasfrpr02.corporate.eu.astrium.corp\PDMMIG_SOLR</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder type="CIFS" description="Windchill TEMP">
+				<location>\\coconnasfrpr02.corporate.eu.astrium.corp\PDMMIG_TEMP</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder name="VAULT" type="CIFS" description="Windchill Vaults">
+				<location>\\coconnasfrpr02.corporate.eu.astrium.corp\PDMMIG_VAULT</location>
+				<comment>...</comment>
+			</Folder>			
+		</Folders>
+		<emailTool>
+			<mailingList>ConnectWindchill - Migration</mailingList>
+			<mailingList name="Team PERCALL">AMINNE@percallgroup.com; gmartin@percall.fr; SROUGES-MATUSIK@percallgroup.com</mailingList>
+		</emailTool>		
+	</Cluster>
+	
+	<!-- Connect Windchill Maintenance -->
+	<Cluster name="PDM-MAINT01" version="R3.2 HF7" fullVersion="WINDCHILLM020_PHENIX4V10_NEWPDM_R3.2HF7" instanceName="Connect Windchill Maintenance" description="Connect Windchill Maintenance" isProductionServer="false" WindchillControl="true">	
+		<ServerURL>
+			<Icon>star-medal-gold-green.png</Icon>
+			<URL DisplayName="Connect Windchill Maintenance" wtURL="true">http://pdm-maint01.corporate.eu.astrium.corp:8000/Windchill</URL>
+			<URL DisplayName="Cognos8">http://pdm-maint01.corporate.eu.astrium.corp:8000/cognos8</URL>
+			<URL DisplayName="Web Services WT">http://pdm-maint01.corporate.eu.astrium.corp:8000/Windchill/servlet/RMWebServices</URL>
+		</ServerURL>	
+
+		<ServerNode name="BT1" server="copdfri04.corporate.eu.astrium.corp" ip="10.49.0.133">
+			<ServerDescription>Windchill DS, 1 Background MS, 1 MS, 1 Partslink</ServerDescription>
+			<Services>		
+				<WDS>Windchill Directory Server</WDS>
+				<Apache>WindchillApache</Apache>
+				<MasterServerManager>WindchillMasterServerManager</MasterServerManager>
+				<Windchill>Windchill</Windchill>
+				<PartsLink>Windchill_PartsLink</PartsLink>
+				<Cognos>Cognos 8</Cognos>			
+			</Services>
+		</ServerNode>	
+		
+		<ServerNode name="FE1" server="copdfrp05.corporate.eu.astrium.corp" ip="10.49.0.126">
+			<ServerDescription>1 MS</ServerDescription>
+			<Services>		
+				<Apache>WindchillApache</Apache>
+				<Windchill>Windchill</Windchill>		
+			</Services>
+		</ServerNode>	
+
+		<ServerNode name="PDF" server="copdfrtr04.corporate.eu.astrium.corp" ip="10.49.0.200">
+			<ServerDescription>PDF Training server + Scrum04 rendition</ServerDescription>
+			<Services>				
+				<Adobe>JBOSS_FOR_ADOBE_LIVECYCLE_ES3</Adobe>
+				<AdobeDB>MySQL for Adobe LiveCycle ES3</AdobeDB>				
+				<AdobeWorker>GS Worker Daemon Copdfri04</AdobeWorker>				
+			</Services> 
+		</ServerNode>	
+		<Database> 
+			<ServerName>copdfri04.corporate.eu.astrium.corp</ServerName>
+			<ServerPort>1521</ServerPort>
+			<ServerSID>wind</ServerSID>
+		</Database>
+		<ActiveDirectory>
+			<adURL>ldap://windchill-ldapsat.tls.fr.astrium.corp:3268/</adURL>
+			<adSearchBase>dc=astrium,dc=corp</adSearchBase>
+			<adBranch>memberOf=CN=Windchill_Production, OU=Windchill, OU=Windchill_Gestion, OU=Application Access, OU=Company Groups, DC=fr, dc=astrium,dc=corp</adBranch>
+		</ActiveDirectory>		
+		<Logs>
+			<log node="BT1" category="Apache" folder="\\copdfri04.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Apache\copdfri04.corporate.eu.astrium.corp\" archive="\\coconnasfrpr02.corporate.eu.astrium.corp\VAULT_SCRUM\COPDFRI04\LOGS\Apache\copdfri04.corporate.eu.astrium.corp\" />
+            <log node="FE1" category="Apache" folder="\\copdfrp05.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Apache\copdfrp05.corporate.eu.astrium.corp\" archive="\\coconnasfrpr02.corporate.eu.astrium.corp\VAULT_SCRUM\COPDFRI04\LOGS\Apache\copdfrp05.corporate.eu.astrium.corp\" />
+			<log node="BT1" category="Windchill" folder="\\copdfri04.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Windchill\copdfri04.corporate.eu.astrium.corp\" archive="\\coconnasfrpr02.corporate.eu.astrium.corp\VAULT_SCRUM\COPDFRI04\LOGS\Windchill\copdfri04.corporate.eu.astrium.corp\" />
+            <log node="FE1" category="Windchill" folder="\\copdfrp05.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Windchill\copdfrp05.corporate.eu.astrium.corp\" archive="\\coconnasfrpr02.corporate.eu.astrium.corp\VAULT_SCRUM\COPDFRI04\LOGS\Apache\copdfrp05.corporate.eu.astrium.corp\" />
+		</Logs>
+		<Folders>
+			<Folder type="LOCAL" description="Windchill Logs">
+				<location>\\copdfri04.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Apache</location>
+
+				<comment>Apache Logs</comment>
+			</Folder>
+			<Folder name="SOLR" type="LOCAL" description="Windchill SOLR">
+				<location>\\copdfri04.corporate.eu.astrium.corp\ptc\WorkArea\SOLR</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder type="LOCAL" description="Windchill TEMP">
+				<location>\\copdfri04.corporate.eu.astrium.corp\ptc\WorkArea\TEMP</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder name="VAULT" type="LOCAL" description="Windchill Vaults">
+				<location>\\coconnasfrpr02.corporate.eu.astrium.corp\VAULT_SCRUM\COPDFRI04\vaults</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder type="ON SERVER" description="COPDFRI04 (CORE)">
+				<location>\\copdfri04.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>	
+			<Folder type="ON SERVER" description="COPDFRP05 (FE1)">
+				<location>\\copdfrp05.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>	
+		</Folders>
+		<emailTool>
+			<mailingList>ConnectWindchill - Maintenance</mailingList>
+			<mailingList name="Team PERCALL">AMINNE@percallgroup.com; gmartin@percall.fr; SROUGES-MATUSIK@percallgroup.com</mailingList>
+		</emailTool>
+	</Cluster>
+
+	<!-- Connect Windchill Scrum 03-->
+	<Cluster name="COPDFRI03" version="2.4.1" fullVersion="WINDCHILLM020_PHENIX4V10_NEWPDM_R2.4.1" instanceName="Connect Windchill Scrum03" description="Connect Windchill Scrum 03" isProductionServer="false" WindchillControl="true">	
+		<ServerURL>
+			<Icon>star-medal-gold-green.png</Icon>
+			<URL DisplayName="Connect Windchill WT_MASTERSERVER (WT Master FileServer)" wtURL="true">http://copdfri03.corporate.eu.astrium.corp:8000/Windchill</URL>
+			<URL DisplayName="Cognos8">http://copdfri03.corporate.eu.astrium.corp:8000/cognos8</URL>
+			<URL DisplayName="Web Services WT">http://copdfri03.corporate.eu.astrium.corp:8000/Windchill/servlet/RMWebServices</URL>
+		</ServerURL>	
+		<ServerNode name="BT1" server="copdfri03.corporate.eu.astrium.corp" ip="10.49.0.132">
+			<ServerDescription>WT Master - Windchill DS, 1 Background MS, 1 MS, 1 Partslink</ServerDescription>
+			<Services>		
+				<WDS>Windchill Directory Server</WDS>
+				<Apache>WindchillApache</Apache>
+				<MasterServerManager>WindchillMasterServerManager</MasterServerManager>
+				<Windchill>Windchill</Windchill>
+				<PartsLink>Windchill_PartsLink</PartsLink>
+				<Cognos>Cognos 8</Cognos>			
+			</Services>
+		</ServerNode>	
+		<ServerNode name="PDF" server="copdfrtr04.corporate.eu.astrium.corp" ip="10.49.0.200">
+			<ServerDescription>PDF Training server + Scrum04 + Scrum03 rendition</ServerDescription>
+			<Services>				
+				<!-- handle only by training server 
+				<Adobe>JBOSS_FOR_ADOBE_LIVECYCLE_ES3</Adobe>
+				<AdobeDB>MySQL for Adobe LiveCycle ES3</AdobeDB>				
+				-->
+				<AdobeWorker>GS Worker Daemon COPDFRI03</AdobeWorker>				
+			</Services> 
+		</ServerNode>	
+		<Database> 
+			<ServerName>copdfri03.corporate.eu.astrium.corp</ServerName>
+			<ServerPort>1521</ServerPort>
+			<ServerSID>wind</ServerSID>
+		</Database>
+		<ActiveDirectory>
+			<adURL>ldap://windchill-ldapsat.tls.fr.astrium.corp:3268/</adURL>
+			<adSearchBase>dc=astrium,dc=corp</adSearchBase>
+			<adBranch>memberOf=CN=Windchill_Production, OU=Windchill, OU=Windchill_Gestion, OU=Application Access, OU=Company Groups, DC=fr, dc=astrium,dc=corp</adBranch>
+		</ActiveDirectory>
+		<Logs>
+			<log node="BT1" category="Apache" folder="\\copdfri03.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Apache\copdfri03.corporate.eu.astrium.corp\" archive="\\coconnasfrpr02.corporate.eu.astrium.corp\VAULT_SCRUM\COPDFRI03\LOGS\Apache\copdfri03.corporate.eu.astrium.corp\" />
+			<log node="BT1" category="Windchill" folder="\\copdfri03.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Windchill\copdfri03.corporate.eu.astrium.corp\" archive="\\coconnasfrpr02.corporate.eu.astrium.corp\VAULT_SCRUM\COPDFRI03\LOGS\Windchill\copdfri03.corporate.eu.astrium.corp\" />
+		</Logs>
+		<Folders>
+			<Folder type="LOCAL" description="Windchill Logs">
+				<location>\\coconnasfrpr02.corporate.eu.astrium.corp\VAULT_SCRUM\LOGS\Apache</location>
+				<comment>Apache Logs</comment>
+			</Folder>
+			<Folder name="SOLR" type="LOCAL" description="Windchill SOLR">
+				<location>\\coconnasfrpr02.corporate.eu.astrium.corp\VAULT_SCRUM\SOLR</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder type="LOCAL" description="Windchill TEMP">
+				<location>\\coconnasfrpr02.corporate.eu.astrium.corp\VAULT_SCRUM\TEMP</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder name="VAULT" type="LOCAL" description="Windchill Vaults">
+				<location>\\coconnasfrpr02.corporate.eu.astrium.corp\VAULT_SCRUM\VAULT</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder type="ON SERVER" description="COPDFRI03 (CORE)">
+				<location>\\copdfri03.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>	
+		</Folders>
+	</Cluster>
+	
+	<!-- Connect Windchill Migration -->	
+	<Cluster name="MPD-MIGRATION" version="2.4.1" instanceName="newMPD Migration" description="newMPD Migration" isProductionServer="false" WindchillControl="false">	
+		<ServerURL>
+			<Icon>star-medal-gold-green.png</Icon>
+			<URL DisplayName="NewMPD Migration" wtURL="true">http://mpd-int1.corporate.eu.astrium.corp:8000/Windchill</URL>
+			<URL DisplayName="Cognos8">http://mpd-int1.corporate.eu.astrium.corp:8000/cognos8</URL>
+			<URL DisplayName="Web Services WT">http://mpd-int1.corporate.eu.astrium.corp:8000/Windchill/servlet/RMWebServices</URL>
+		</ServerURL>	
+		<ServerNode name="BT1" server="copdfri01.corporate.eu.astrium.corp" ip="10.49.0.117">
+			<ServerDescription></ServerDescription>
+			<Services>
+				<Start>			
+					<Service>Windchill Directory Server</Service>
+					<Service>WindchillApache</Service>
+					<Service>Windchill</Service>
+					<Service>Windchill_PartsLink</Service>
+				</Start>
+				<Stop>
+					<Service>Windchill_PartsLink</Service>
+					<Service>Windchill</Service>
+					<Service>WindchillApache</Service>
+					<Service>Windchill Directory Server</Service>
+				</Stop>
+			</Services>
+		</ServerNode>	
+		<ServerNode name="PDF" server="copdfri02.corporate.eu.astrium.corp" ip="10.49.0.118">
+			<ServerDescription></ServerDescription>
+			<Services>
+			</Services>
+		</ServerNode>	
+		<Database>
+			<ServerName>mpd-int1-bd.corporate.eu.astrium.corp</ServerName>
+			<ServerPort>1522</ServerPort>
+			<ServerSID>MPDINT</ServerSID>
+		</Database>
+		<ActiveDirectory>
+			<adURL>ldap://aspire-ldapsat.tls.fr.astrium.corp:3268/</adURL>
+			<adSearchBase>dc=astrium,dc=corp</adSearchBase>
+			<adBranch>memberOf=CN=Windchill_Integration, OU=Windchill, OU=Windchill_Gestion, OU=Application Access, OU=Company Groups, DC=fr, dc=astrium,dc=corp</adBranch>
+		</ActiveDirectory>
+		<Logs>
+			<log node="BT1" category="Apache" folder="\\copdfri01.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Apache\copdfri01.corporate.eu.astrium.corp\" archive="" />
+			<log node="BT1" category="Windchill" folder="\\copdfri01.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Windchill\copdfri01.corporate.eu.astrium.corp\" archive="" />
+		</Logs>
+		<Folders>
+			<Folder type="LOCAL" description="Windchill Logs">
+				<location>E:\ptc\Windchill_10.1\Apache\logs</location>
+				<comment>Apache Logs</comment>
+			</Folder>
+			<Folder name="SOLR" type="xxxx" description="Windchill SOLR">
+				<location>xxxxxxxxxxxxxxx</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder type="xxxx" description="Windchill TEMP">
+				<location>xxxxxxxxxxxxxxx</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder name="VAULT" type="xxxx" description="Windchill Vaults">
+				<location>xxxxxxxxxxxxxxx</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder type="ON SERVER" description="COPDFRI01 (CORE)">
+				<location>\\copdfri01.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>	
+			<Folder type="ON SERVER" description="COPDFRI02 (PDF)">
+				<location>\\copdfri02.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>
+		</Folders>			
+	</Cluster>
+	
+	<!-- NewMPD Production -->
+	<Cluster name="MPD-PRODUCTION" version="Phenix2V10" instanceName="newMPD Production (WT FileServer)" description="newMPD Production" isProductionServer="false" WindchillControl="false">	
+		<ServerURL>
+			<Icon>star-medal-gold-green.png</Icon>
+			<URL DisplayName="Mpd Production" wtURL="true">http://mpd-prod1.corporate.eu.astrium.corp:8000/Windchill</URL>
+			<URL DisplayName="Cognos8">http://mpd-prod1.corporate.eu.astrium.corp:8000/cognos8</URL>
+			<URL DisplayName="Adobe LiveCycle ES3">http://copdfrp03.corporate.eu.astrium.corp:8080/adminui/login.faces</URL>
+			<URL DisplayName="Web Services WT">http://mpd-prod1.corporate.eu.astrium.corp:8000/Windchill/servlet/RMWebServices</URL>
+		</ServerURL>	
+		<ServerNode name="BT1" server="copdfrp01.corporate.eu.astrium.corp" ip="10.49.0.114">
+			<ServerDescription></ServerDescription>
+			<Services>
+				<Start>			
+					<Service>Windchill Directory Server</Service>
+					<Service>WindchillApache</Service>
+					<Service>Windchill</Service>
+					<Service>Windchill_PartsLink</Service>
+				</Start>
+				<Stop>
+					<Service>Windchill_PartsLink</Service>
+					<Service>Windchill</Service>
+					<Service>WindchillApache</Service>
+					<Service>Windchill Directory Server</Service>
+				</Stop>
+			</Services>
+		</ServerNode>	
+		<ServerNode name="PDF" server="copdfrp03.corporate.eu.astrium.corp" ip="10.49.0.116">
+			<ServerDescription>Use as WT FileServer</ServerDescription>
+			<Services>
+			</Services>
+		</ServerNode>
+		<ServerNode name="INDEX" server="copdfrp02.corporate.eu.astrium.corp" ip="10.49.0.115">
+			<ServerDescription></ServerDescription>
+			<Services>
+			</Services>
+		</ServerNode>		
+		<Database>
+			<ServerName>mpd-prod1-bd.corporate.eu.astrium.corp</ServerName>
+			<ServerPort>1532</ServerPort>
+			<ServerSID>MPDPRO</ServerSID>
+		</Database>
+		<ActiveDirectory>
+			<adURL>ldap://windchill-ldapsat.tls.fr.astrium.corp:3268/</adURL>
+			<adSearchBase>dc=astrium,dc=corp</adSearchBase>
+			<adBranch>memberOf=CN=Windchill_Production, OU=Windchill, OU=Windchill_Gestion, OU=Application Access, OU=Company Groups, DC=fr, dc=astrium,dc=corp</adBranch>
+		</ActiveDirectory>		
+		<Folders>
+			<Folder type="LOCAL" description="Windchill Logs">
+				<location>E:\ptc\Windchill_10.1\Apache\logs</location>
+				<comment>Apache Logs</comment>
+			</Folder>
+			<Folder type="LOCAL" description="Windchill Logs">
+				<location>E:\ptc\Windchill_10.1\Windchill\logs</location>
+				<comment>Windchill Logs</comment>
+			</Folder>
+			<Folder name="SOLR" type="xxxx" description="Windchill SOLR">
+				<location>xxxxxxxxxxxxxxx</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder type="xxxx" description="Windchill TEMP">
+				<location>xxxxxxxxxxxxxxx</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder name="VAULT" type="xxxx" description="Windchill Vaults">
+				<location>xxxxxxxxxxxxxxx</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder type="ON SERVER" description="COPDFRP01 (CORE)">
+				<location>\\copdfrp01.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>
+			<Folder type="ON SERVER" description="COPDFRP02 (INDEX)">
+				<location>\\copdfrp02.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>
+			<Folder type="ON SERVER" description="COPDFRP03 (PDF)">
+				<location>\\copdfrp03.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>
+		</Folders>
+	</Cluster>	
+
+	<!-- NewPDM Sandbox2 -->
+	<Cluster name="MPD-SANDBOX2" version="" instanceName="Connect Windchill Arbortext" description="Connect Windchill Arbortext" isProductionServer="false" WindchillControl="false">	
+		<ServerURL>
+			<Icon>star-medal-gold-green.png</Icon>
+			<URL DisplayName="Connect Windchill Arbortext (ARBORTEXT + SHAREPOINT WebPart)" wtURL="true">http://mpd-sbx2.corporate.eu.astrium.corp:8000/Windchill</URL>
+			<URL DisplayName="Cognos8">http://mpd-sbx2.corporate.eu.astrium.corp:8000/cognos8</URL>
+			<URL DisplayName="Web Services WT">http://mpd-sbx2.corporate.eu.astrium.corp:8000/Windchill/servlet/RMWebServices</URL>
+		</ServerURL>	
+		<ServerNode name="BT1" server="coplfrt02.corporate.eu.astrium.corp" ip="10.49.0.46">
+			<ServerDescription>windchill/ArborTEXT01</ServerDescription>
+			<Services>
+				<Start>			
+					<Service>Windchill Directory Server</Service>
+					<Service>WindchillApache</Service>
+					<Service>Windchill</Service>
+					<Service>Windchill_PartsLink</Service>
+				</Start>
+				<Stop>
+					<Service>Windchill_PartsLink</Service>
+					<Service>Windchill</Service>
+					<Service>WindchillApache</Service>
+					<Service>Windchill Directory Server</Service>
+				</Stop>
+			</Services>
+		</ServerNode>	
+		<ServerNode name="PDF" server="coplfrt04.corporate.eu.astrium.corp" ip="10.49.0.48">
+			<ServerDescription>COPLFRT04\windchill MPDsbx04</ServerDescription>
+			<Services>
+			</Services>
+		</ServerNode>		
+		<Database> 
+			<ServerName>codbfri03.corporate.eu.astrium.corp</ServerName>
+			<ServerPort>1523</ServerPort>
+			<ServerSID>PXCPXC</ServerSID>
+		</Database>
+		<ActiveDirectory>
+			<adURL>ldap://windchill-ldapsat.tls.fr.astrium.corp:3268/</adURL>
+			<adSearchBase>dc=astrium,dc=corp</adSearchBase>
+			<adBranch>memberOf=CN=Windchill_Sandbox, OU=Windchill, OU=Windchill_Gestion, OU=Application Access, OU=Company Groups, DC=fr, dc=astrium,dc=corp</adBranch>
+		</ActiveDirectory>	
+		<Folders>
+			<Folder type="ON SERVER" description="COPLFRT02 (CORE)">
+				<location>\\coplfrt02.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>
+			<Folder type="ON SERVER" description="COPLFRT04 (PDF)">
+				<location>\\coplfrt04.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>
+		</Folders>			
+	</Cluster>		
+
+		<!-- Connect Windchill  POC WT11 -->
+	<Cluster name="COPDFRT03" version="3.X HFX" fullVersion="WINDCHILL 11 NEWPDM_R3.XHFX" instanceName="Connect Windchill POC WT11" description="Connect Windchill 11" isProductionServer="false" WindchillControl="true">	
+		<ServerURL>
+			<Icon>star-medal-gold-green.png</Icon>
+			<URL DisplayName="Connect Windchill POC WT11" wtURL="true">http://copdfrt03.corporate.eu.astrium.corp:8000/Windchill</URL>
+			<URL DisplayName="Cognos8">http://copdfrt03.corporate.eu.astrium.corp:8000/cognos8</URL>
+			<URL DisplayName="Web Services WT">http://copdfrt03.corporate.eu.astrium.corp:8000/Windchill/servlet/RMWebServices</URL>
+		</ServerURL>	
+		<ServerNode name="BT1" server="copdfrt03.corporate.eu.astrium.corp" ip="10.49.0.170">
+			<ServerDescription>Windchill DS, 1 Background MS, 1 MS, 1 Partslink</ServerDescription>
+			<Services>		
+				<WDS>Windchill Directory Server</WDS>
+				<Apache>WindchillApache</Apache>
+				<MasterServerManager>WindchillMasterServerManager</MasterServerManager>
+				<Windchill>Windchill</Windchill>
+				<PartsLink>Windchill_PartsLink</PartsLink>
+				<Cognos>Cognos 8</Cognos>		
+				<DSMCore>DSMCore (not in scope)</DSMCore>				
+			</Services>
+		</ServerNode>	
+		<ServerNode name="PDF" server="copdxxxxxx.corporate.eu.astrium.corp (not in scope)" ip="10.49.0.xxx">
+			<ServerDescription>PDF server</ServerDescription>
+			<Services>				
+				<!-- handle only by training server 
+				<Adobe>JBOSS_FOR_ADOBE_LIVECYCLE_ES3</Adobe>
+				<AdobeDB>MySQL for Adobe LiveCycle ES3</AdobeDB>				
+				-->
+				<AdobeWorker>GS Worker Daemon Training1</AdobeWorker>				
+			</Services> 
+		</ServerNode>	
+		<Database> 
+			<ServerName>codbfrt04.corporate.eu.astrium.corp</ServerName>
+			<ServerPort>xxxx</ServerPort>
+			<ServerSID>xxxxx</ServerSID>
+		</Database>
+		<ActiveDirectory>
+			<adURL>ldap://windchill-ldapsat.tls.fr.astrium.corp:3268/</adURL>
+			<adSearchBase>dc=astrium,dc=corp</adSearchBase>
+			<adBranch>memberOf=CN=Windchill_Integration, OU=Windchill, OU=Windchill_Gestion, OU=Application Access, OU=Company Groups, DC=fr, dc=astrium,dc=corp</adBranch>
+		</ActiveDirectory>
+		<Logs>
+			<log node="BT1" category="Apache" folder="\\copdfrt03.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Apache\SERVERBT1.corporate.eu.astrium.corp\" archive="" />
+			<log node="BT1" category="Windchill" folder="\\copdfrt03.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Windchill\SERVERBT1.corporate.eu.astrium.corp\" archive="" />
+		</Logs>
+		<Folders>
+			<Folder type="LOCAL" description="Windchill Logs">
+				<location>E:\PRODUCT\ptc\Windchill_10.1\WorkArea\LOGS\Apache</location>
+				<comment>Apache Logs</comment>
+			</Folder>
+			<Folder name="SOLR" type="LOCAL" description="Windchill SOLR">
+				<location>E:\PRODUCT\ptc\Windchill_10.1\WorkArea\SOLR</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder type="LOCAL" description="Windchill TEMP">
+				<location>E:\PRODUCT\ptc\Windchill_10.1\WorkArea\TEMP</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder name="VAULT" type="LOCAL" description="Windchill Vaults">
+				<location>E:\PRODUCT\ptc\Windchill_10.1\WorkArea\VAULT</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder type="ON SERVER" description="COPDFRI04 (CORE)">
+				<location>\\copdfri04.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>	
+		</Folders>
+	</Cluster>
+	
+	
+		<!-- Connect Windchill POC for ThingWorx -->
+	<Cluster name="COPDFRT01" version="" instanceName="Connect Windchill POC ThingWorx" description="Connect Windchill POC ThingWorx" isProductionServer="false" WindchillControl="false">	
+		<ServerURL>
+			<Icon>star-medal-gold-green.png</Icon>
+			<URL DisplayName="Connect Windchill POC ThingWorx" wtURL="true">xxxxxxxxx</URL>
+			<URL DisplayName="Cognos8">xxxxxxxxx</URL>
+			<URL DisplayName="Web Services WT">xxxxxxxxx</URL>
+		</ServerURL>	
+		<ServerNode name="THINGWORX" server="COPDFRT01.corporate.eu.astrium.corp " ip="10.49.1.168">
+			<ServerDescription>ThingWorx for Windchill</ServerDescription>
+			<Services>
+				<Start>			
+					<Service>ThingWorx</Service>
+				</Start>
+				<Stop>
+					<Service>ThingWorx</Service>
+				</Stop>
+			</Services>
+		</ServerNode>			
+		<Database> 
+			<ServerName>xxxxxxx.corporate.eu.astrium.corp</ServerName>
+			<ServerPort>xxxxx</ServerPort>
+			<ServerSID>xxxxx</ServerSID>
+		</Database>
+		<Folders>
+			<Folder type="ON SERVER" description="COPDFRT01 (CORE)">
+				<location>\\xxxxxxx</location>
+				<comment>xxxxxxx</comment>
+			</Folder>
+		</Folders>			
+	</Cluster>			
+	
+	
+	<!-- NewMPD Sandbox3 -->
+	<Cluster name="MPD-SANDBOX3" version="" instanceName="newMPD SANDBOX3" description="newMPD SANDBOX3" isProductionServer="false" WindchillControl="false">	
+		<ServerURL>
+			<Icon>star-medal-gold-green.png</Icon>
+			<URL DisplayName="Mpd Sandbox3 (also for Phusion PLMPD Stress Tests)" wtURL="true">http://mpd-sbx3.corporate.eu.astrium.corp:8000/Windchill</URL>
+			<URL DisplayName="Cognos8">http://mpd-sbx3.corporate.eu.astrium.corp:8000/cognos8</URL>
+			<URL DisplayName="Web Services WT">http://mpd-sbx3.corporate.eu.astrium.corp:8000/Windchill/servlet/RMWebServices</URL>
+		</ServerURL>	
+		<ServerNode name="BT1" server="coplfrt03.corporate.eu.astrium.corp" ip="10.49.0.47">
+			<ServerDescription></ServerDescription>
+			<Services>
+				<Start>			
+					<Service>Windchill Directory Server</Service>
+					<Service>WindchillApache</Service>
+					<Service>Windchill</Service>
+					<Service>Windchill_PartsLink</Service>
+				</Start>
+				<Stop>
+					<Service>Windchill_PartsLink</Service>
+					<Service>Windchill</Service>
+					<Service>WindchillApache</Service>
+					<Service>Windchill Directory Server</Service>
+				</Stop>
+			</Services>
+		</ServerNode>	
+		<ServerNode name="PDF" server="coplfrt04.corporate.eu.astrium.corp" ip="10.49.0.48">
+			<ServerDescription></ServerDescription>
+			<Services>
+			</Services>
+		</ServerNode>
+		<Database> 
+			<ServerName>codbfri03.corporate.eu.astrium.corp</ServerName>
+			<ServerPort>1542</ServerPort>
+			<ServerSID>SBXPXC</ServerSID>
+		</Database>
+		<ActiveDirectory>
+			<adURL>ldap://windchill-ldapsat.tls.fr.astrium.corp:3268/</adURL>
+			<adSearchBase>dc=astrium,dc=corp</adSearchBase>
+			<adBranch>memberOf=CN=Windchill_Sandbox, OU=Windchill, OU=Windchill_Gestion, OU=Application Access, OU=Company Groups, DC=fr, dc=astrium,dc=corp</adBranch>
+		</ActiveDirectory>	
+		<Folders>
+			<Folder type="ON SERVER" description="COPLFRT03 (CORE)">
+				<location>\\coplfrt03.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>
+			<Folder type="ON SERVER" description="COPLFRT04 (PDF)">
+				<location>\\coplfrt04.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>
+		</Folders>	
+	</Cluster>
+	
+		<!-- Connect Windchill Training 1 -->
+	<Cluster name="COPDFRTR01" version="2.5.1 HF5" fullVersion="WINDCHILLM020_PHENIX4V10_NEWPDM_R2.5.1HF5" instanceName="Connect Windchill Training 1 (Reference)" description="Connect Windchill Training 1 (Reference)" isProductionServer="false" WindchillControl="true">	
+		<ServerURL>
+			<Icon>star-medal-gold-green.png</Icon>
+			<URL DisplayName="Connect Windchill Training 1 (Reference)" wtURL="true">http://copdfrtr01.corporate.eu.astrium.corp:8000/Windchill</URL>
+			<URL DisplayName="Cognos8">http://copdfrtr01.corporate.eu.astrium.corp:8000/cognos8</URL>
+			<URL DisplayName="Web Services WT">http://copdfrtr01.corporate.eu.astrium.corp:8000/Windchill/servlet/RMWebServices</URL>
+		</ServerURL>	
+		<ServerNode name="BT1" server="copdfrtr01.corporate.eu.astrium.corp" ip="10.49.0.119">
+			<ServerDescription>Windchill DS, 1 Background MS, 1 MS, 1 Partslink</ServerDescription>
+			<Services>		
+				<WDS>Windchill Directory Server</WDS>
+				<Apache>WindchillApache</Apache>
+				<MasterServerManager>WindchillMasterServerManager</MasterServerManager>
+				<Windchill>Windchill</Windchill>
+				<PartsLink>Windchill_PartsLink</PartsLink>
+				<Cognos>Cognos 8</Cognos>		
+				<DSMCore>DSMCore</DSMCore>				
+			</Services>
+		</ServerNode>	
+		<ServerNode name="PDF" server="copdfrtr04.corporate.eu.astrium.corp" ip="10.49.0.200">
+			<ServerDescription>PDF Training server + Scrum04 rendition</ServerDescription>
+			<Services>				
+				<!-- handle only by training server 
+				<Adobe>JBOSS_FOR_ADOBE_LIVECYCLE_ES3</Adobe>
+				<AdobeDB>MySQL for Adobe LiveCycle ES3</AdobeDB>				
+				-->
+				<AdobeWorker>GS Worker Daemon Training1</AdobeWorker>				
+			</Services> 
+		</ServerNode>	
+		<Database> 
+			<ServerName>copdfrtr01.corporate.eu.astrium.corp</ServerName>
+			<ServerPort>1522</ServerPort>
+			<ServerSID>trainin1</ServerSID>
+		</Database>
+		<ActiveDirectory>
+			<adURL>ldap://windchill-ldapsat.tls.fr.astrium.corp:3268/</adURL>
+			<adSearchBase>dc=astrium,dc=corp</adSearchBase>
+			<adBranch>memberOf=CN=Windchill_Integration, OU=Windchill, OU=Windchill_Gestion, OU=Application Access, OU=Company Groups, DC=fr, dc=astrium,dc=corp</adBranch>
+		</ActiveDirectory>
+		<Logs>
+			<log node="BT1" category="Apache" folder="\\copdfrtr01.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Apache\SERVERBT1.corporate.eu.astrium.corp\" archive="" />
+			<log node="BT1" category="Windchill" folder="\\copdfrtr01.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Windchill\SERVERBT1.corporate.eu.astrium.corp\" archive="" />
+		</Logs>
+		<Folders>
+			<Folder type="LOCAL" description="Windchill Logs">
+				<location>E:\PRODUCT\ptc\Windchill_10.1\WorkArea\LOGS\Apache</location>
+				<comment>Apache Logs</comment>
+			</Folder>
+			<Folder name="SOLR" type="LOCAL" description="Windchill SOLR">
+				<location>E:\PRODUCT\ptc\Windchill_10.1\WorkArea\SOLR</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder type="LOCAL" description="Windchill TEMP">
+				<location>E:\PRODUCT\ptc\Windchill_10.1\WorkArea\TEMP</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder name="VAULT" type="LOCAL" description="Windchill Vaults">
+				<location>E:\PRODUCT\ptc\Windchill_10.1\WorkArea\VAULT</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder type="ON SERVER" description="COPDFRI04 (CORE)">
+				<location>\\copdfri04.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>	
+		</Folders>
+	</Cluster>
+	<Cluster name="COPDFRTR11" version="2.5.1 HF5" fullVersion="WINDCHILLM020_PHENIX4V10_NEWPDM_R2.5.1HF5" instanceName="Connect Windchill Training 1" description="Connect Windchill Training 1" isProductionServer="false" WindchillControl="true">	
+		<ServerURL>
+			<Icon>star-medal-gold-green.png</Icon>
+			<URL DisplayName="Connect Windchill Training 1 (Reference)" wtURL="true">http://COPDFRTR11.corporate.eu.astrium.corp:8000/Windchill</URL>
+			<URL DisplayName="Cognos8">http://COPDFRTR11.corporate.eu.astrium.corp:8000/cognos8</URL>
+			<URL DisplayName="Web Services WT">http://copdfrtr11.corporate.eu.astrium.corp:8000/Windchill/servlet/RMWebServices</URL>
+		</ServerURL>	
+		<ServerNode name="BT1" server="COPDFRTR11.corporate.eu.astrium.corp" ip="10.49.1.29">
+			<ServerDescription>Windchill DS, 1 Background MS, 1 MS, 1 Partslink</ServerDescription>
+			<Services>		
+				<WDS>Windchill Directory Server</WDS>
+				<Apache>WindchillApache</Apache>
+				<MasterServerManager>WindchillMasterServerManager</MasterServerManager>
+				<Windchill>Windchill</Windchill>
+				<PartsLink>Windchill_PartsLink</PartsLink>
+				<Cognos>Cognos 8</Cognos>	
+				<DSMCore>DSMCore</DSMCore>								
+			</Services>
+		</ServerNode>	
+		<ServerNode name="PDF" server="copdfrtr04.corporate.eu.astrium.corp" ip="10.49.0.200">
+			<ServerDescription>PDF Training server + Scrum04 rendition</ServerDescription>
+			<Services>				
+				<!-- handle only by training server 
+				<Adobe>JBOSS_FOR_ADOBE_LIVECYCLE_ES3</Adobe>
+				<AdobeDB>MySQL for Adobe LiveCycle ES3</AdobeDB>				
+				-->
+				<AdobeWorker>GS Worker Daemon Training11</AdobeWorker>				
+			</Services> 
+		</ServerNode>	
+		<Database> 
+			<ServerName>COPDFRTR11.corporate.eu.astrium.corp</ServerName>
+			<ServerPort>1522</ServerPort>
+			<ServerSID>trainin1</ServerSID>
+		</Database>
+		<ActiveDirectory>
+			<adURL>ldap://windchill-ldapsat.tls.fr.astrium.corp:3268/</adURL>
+			<adSearchBase>dc=astrium,dc=corp</adSearchBase>
+			<adBranch>memberOf=CN=Windchill_Integration, OU=Windchill, OU=Windchill_Gestion, OU=Application Access, OU=Company Groups, DC=fr, dc=astrium,dc=corp</adBranch>
+		</ActiveDirectory>
+		<Logs>
+			<log node="BT1" category="Apache" folder="\\copdfrtr11.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Apache\SERVERBT1.corporate.eu.astrium.corp\" archive="" />
+			<log node="BT1" category="Windchill" folder="\\copdfrtr11.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Windchill\SERVERBT1.corporate.eu.astrium.corp\" archive="" />
+		</Logs>
+		<Folders>
+			<Folder type="LOCAL" description="Windchill Logs">
+				<location>E:\PRODUCT\ptc\Windchill_10.1\WorkArea\LOGS\Apache</location>
+				<comment>Apache Logs</comment>
+			</Folder>
+			<Folder name="SOLR" type="LOCAL" description="Windchill SOLR">
+				<location>E:\PRODUCT\ptc\Windchill_10.1\WorkArea\SOLR</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder type="LOCAL" description="Windchill TEMP">
+				<location>E:\PRODUCT\ptc\Windchill_10.1\WorkArea\TEMP</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder name="VAULT" type="LOCAL" description="Windchill Vaults">
+				<location>E:\PRODUCT\ptc\Windchill_10.1\WorkArea\VAULT</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder type="ON SERVER" description="COPDFRI04 (CORE)">
+				<location>\\copdfri04.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>	
+		</Folders>
+	</Cluster>
+		<!-- Connect Windchill Training 2 -->
+	<Cluster name="COPDFRTR12" version="2.5.1 HF5" fullVersion="WINDCHILLM020_PHENIX4V10_NEWPDM_R2.5.1HF5" instanceName="Connect Windchill Training 2" description="Connect Windchill Training 2" isProductionServer="false" WindchillControl="true">	
+		<ServerURL>
+			<Icon>star-medal-gold-green.png</Icon>
+			<URL DisplayName="Connect Windchill Training 2 (Reference)" wtURL="true">http://COPDFRTR12.corporate.eu.astrium.corp:8000/Windchill</URL>
+			<URL DisplayName="Cognos8">http://COPDFRTR12.corporate.eu.astrium.corp:8000/cognos8</URL>
+			<URL DisplayName="Web Services WT">http://copdfrtr12.corporate.eu.astrium.corp:8000/Windchill/servlet/RMWebServices</URL>
+		</ServerURL>	
+		<ServerNode name="BT1" server="COPDFRTR12.corporate.eu.astrium.corp" ip="10.49.1.30">
+			<ServerDescription>Windchill DS, 1 Background MS, 1 MS, 1 Partslink</ServerDescription>
+			<Services>		
+				<WDS>Windchill Directory Server</WDS>
+				<Apache>WindchillApache</Apache>
+				<MasterServerManager>WindchillMasterServerManager</MasterServerManager>
+				<Windchill>Windchill</Windchill>
+				<PartsLink>Windchill_PartsLink</PartsLink>
+				<Cognos>Cognos 8</Cognos>	
+				<DSMCore>DSMCore</DSMCore>								
+			</Services>
+		</ServerNode>	
+		<ServerNode name="PDF" server="copdfrtr04.corporate.eu.astrium.corp" ip="10.49.0.200">
+			<ServerDescription>PDF Training server + Scrum04 rendition</ServerDescription>
+			<Services>				
+				<!-- handle only by training server 
+				<Adobe>JBOSS_FOR_ADOBE_LIVECYCLE_ES3</Adobe>
+				<AdobeDB>MySQL for Adobe LiveCycle ES3</AdobeDB>				
+				-->
+				<AdobeWorker>GS Worker Daemon Training12</AdobeWorker>				
+			</Services> 
+		</ServerNode>	
+		<Database> 
+			<ServerName>COPDFRTR12.corporate.eu.astrium.corp</ServerName>
+			<ServerPort>1522</ServerPort>
+			<ServerSID>trainin1</ServerSID>
+		</Database>
+		<ActiveDirectory>
+			<adURL>ldap://windchill-ldapsat.tls.fr.astrium.corp:3268/</adURL>
+			<adSearchBase>dc=astrium,dc=corp</adSearchBase>
+			<adBranch>memberOf=CN=Windchill_Integration, OU=Windchill, OU=Windchill_Gestion, OU=Application Access, OU=Company Groups, DC=fr, dc=astrium,dc=corp</adBranch>
+		</ActiveDirectory>
+		<Logs>
+			<log node="BT1" category="Apache" folder="\\copdfrtr12.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Apache\SERVERBT1.corporate.eu.astrium.corp\" archive="" />
+			<log node="BT1" category="Windchill" folder="\\copdfrtr12.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Windchill\SERVERBT1.corporate.eu.astrium.corp\" archive="" />
+		</Logs>
+		<Folders>
+			<Folder type="LOCAL" description="Windchill Logs">
+				<location>E:\PRODUCT\ptc\Windchill_10.1\WorkArea\LOGS\Apache</location>
+				<comment>Apache Logs</comment>
+			</Folder>
+			<Folder name="SOLR" type="LOCAL" description="Windchill SOLR">
+				<location>E:\PRODUCT\ptc\Windchill_10.1\WorkArea\SOLR</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder type="LOCAL" description="Windchill TEMP">
+				<location>E:\PRODUCT\ptc\Windchill_10.1\WorkArea\TEMP</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder name="VAULT" type="LOCAL" description="Windchill Vaults">
+				<location>E:\PRODUCT\ptc\Windchill_10.1\WorkArea\VAULT</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder type="ON SERVER" description="COPDFRI04 (CORE)">
+				<location>\\copdfri04.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>	
+		</Folders>
+	</Cluster>
+		<!-- Connect Windchill Training 3 -->
+	<Cluster name="PDM-TRAINING3" version="3.2 HF8" fullVersion="WINDCHILLM020_PHENIX4V10_NEWPDM_R3.2HF8" instanceName="Connect Windchill Training 3" description="Connect Windchill Training 3" isProductionServer="false" WindchillControl="true">	
+		<ServerURL>
+			<Icon>star-medal-gold-green.png</Icon>
+			<URL DisplayName="Connect Windchill Training 3 SSL(Reference)" wtURL="true">https://pdm-training3.corporate.eu.astrium.corp:8080/Windchill</URL>
+			<URL DisplayName="Connect Windchill Training 3 NON SSL(Reference)" wtURL="true">http://pdm-training3.corporate.eu.astrium.corp:8000/Windchill</URL>
+			<URL DisplayName="Cognos8">http://COPDFRTR13.corporate.eu.astrium.corp:8000/cognos8</URL>
+			<URL DisplayName="Web Services WT">http://copdfrtr14.corporate.eu.astrium.corp:8000/Windchill/servlet/RMWebServices</URL>
+		</ServerURL>	
+		<ServerNode name="BT1" server="COPDFRTR13.corporate.eu.astrium.corp" ip="10.49.1.32">
+			<ServerDescription>Windchill DS, 1 Background MS, 1 MS, 1 Partslink</ServerDescription>
+			<Services>		
+				<WDS>Windchill Directory Server</WDS>
+				<Apache>WindchillApache</Apache>
+				<MasterServerManager>WindchillMasterServerManager</MasterServerManager>
+				<Windchill>Windchill</Windchill>
+				<PartsLink>Windchill_PartsLink</PartsLink>
+				<Cognos>Cognos 8</Cognos>	
+				<DSMCore>DSMCore</DSMCore>								
+			</Services>
+		</ServerNode>
+		<ServerNode name="MIG1" server="COPDFRTR14.corporate.eu.astrium.corp" ip="10.49.0.120">
+			<ServerDescription>Windchill DS, 1 Background MS, 1 MS, 1 Partslink</ServerDescription>
+			<Services>						
+				<Apache>WindchillApache</Apache>
+				<Windchill>Windchill</Windchill>
+			</Services>
+		</ServerNode>			
+		<ServerNode name="PDF" server="copdfrtr04.corporate.eu.astrium.corp" ip="10.49.0.200">
+			<ServerDescription>PDF Training server + Scrum04 rendition</ServerDescription>
+			<Services>				
+				<!-- handle only by training server 
+				<Adobe>JBOSS_FOR_ADOBE_LIVECYCLE_ES3</Adobe>
+				<AdobeDB>MySQL for Adobe LiveCycle ES3</AdobeDB>				
+				-->
+				<AdobeWorker>GS Worker Daemon Training13</AdobeWorker>				
+			</Services> 
+		</ServerNode>
+		<Database>
+			<ServerName>RAC NON PROD: codbfriclu02-scan.corporate.eu.astrium.corp</ServerName>
+			<ServerPort>1523</ServerPort>
+			<ServerSID>SERVICE_NAME=PDMINT  (SERVICE_NAME)</ServerSID>
+		</Database>	
+		<Database>
+			<ServerName>----Server RAC1 :  codbfri07.corporate.eu.astrium.corp (10.49.1.88)</ServerName>
+			<ServerPort>xxxx</ServerPort>
+			<ServerSID>[SCHEMA]_T3: windchill_t3,partslink_t3,wbr_t3</ServerSID>
+		</Database>
+		<Database>
+			<ServerName>----Server RAC2 :  codbfri08.corporate.eu.astrium.corp (10.49.1.89)</ServerName>
+			<ServerPort>xxxx</ServerPort>
+			<ServerSID>[SCHEMA]_T3: windchill_t3,partslink_t3,wbr_t3</ServerSID>
+		</Database>			
+		<ActiveDirectory>
+			<adURL>ldap://windchill-ldapsat.tls.fr.astrium.corp:3268/</adURL>
+			<adSearchBase>dc=astrium,dc=corp</adSearchBase>
+			<adBranch>memberOf=CN=Windchill_Integration, OU=Windchill, OU=Windchill_Gestion, OU=Application Access, OU=Company Groups, DC=fr, dc=astrium,dc=corp</adBranch>
+		</ActiveDirectory>
+		<Logs>
+			<log node="BT1" category="Apache" folder="\\copdfrtr13.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Apache\SERVERBT1.corporate.eu.astrium.corp\" archive="" />
+			<log node="BT1" category="Windchill" folder="\\copdfrtr13.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Windchill\SERVERBT1.corporate.eu.astrium.corp\" archive="" />
+			<log node="FE1" category="Apache" folder="\\copdfrtr14.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Apache\SERVERBT1.corporate.eu.astrium.corp\" archive="" />
+			<log node="FE1" category="Windchill" folder="\\copdfrtr14.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Windchill\SERVERBT1.corporate.eu.astrium.corp\" archive="" />
+		</Logs>
+		<Folders>
+			<Folder type="LOCAL" description="Windchill Logs">
+				<location>E:\PRODUCT\ptc\Windchill_10.1\WorkArea\LOGS\Apache</location>
+				<comment>Apache Logs</comment>
+			</Folder>
+			<Folder name="SOLR" type="LOCAL" description="Windchill SOLR">
+				<location>E:\PRODUCT\ptc\Windchill_10.1\WorkArea\SOLR</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder type="LOCAL" description="Windchill TEMP">
+				<location>E:\PRODUCT\ptc\Windchill_10.1\WorkArea\TEMP</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder name="VAULT" type="LOCAL" description="Windchill Vaults">
+				<location>E:\PRODUCT\ptc\Windchill_10.1\WorkArea\VAULT</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder type="ON SERVER" description="COPDFRI04 (CORE)">
+				<location>\\copdfri04.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>	
+		</Folders>
+	</Cluster>
+		<!-- Connect Windchill Training 4 -->
+	<Cluster name="COPDFRTR14" version="2.5.1 HF5" fullVersion="WINDCHILLM020_PHENIX4V10_NEWPDM_R2.5.1HF5" instanceName="Connect Windchill Training 4" description="Connect Windchill Training 4" isProductionServer="false" WindchillControl="true">	
+		<ServerURL>
+			<Icon>star-medal-gold-green.png</Icon>
+			<URL DisplayName="Connect Windchill Training 4 (Reference)" wtURL="true">http://COPDFRTR14.corporate.eu.astrium.corp:8000/Windchill</URL>
+			<URL DisplayName="Cognos8">http://COPDFRTR14.corporate.eu.astrium.corp:8000/cognos8</URL>
+			<URL DisplayName="Web Services WT">http://copdfrtr14.corporate.eu.astrium.corp:8000/Windchill/servlet/RMWebServices</URL>
+		</ServerURL>	
+		<ServerNode name="BT1" server="COPDFRTR14.corporate.eu.astrium.corp" ip="10.49.0.120">
+			<ServerDescription>Windchill DS, 1 Background MS, 1 MS, 1 Partslink</ServerDescription>
+			<Services>		
+				<WDS>Windchill Directory Server</WDS>
+				<Apache>WindchillApache</Apache>
+				<MasterServerManager>WindchillMasterServerManager</MasterServerManager>
+				<Windchill>Windchill</Windchill>
+				<PartsLink>Windchill_PartsLink</PartsLink>
+				<Cognos>Cognos 8</Cognos>	
+				<DSMCore>DSMCore</DSMCore>								
+			</Services>
+		</ServerNode>	
+		<ServerNode name="PDF" server="copdfrtr04.corporate.eu.astrium.corp" ip="10.49.0.200">
+			<ServerDescription>PDF Training server + Scrum04 rendition</ServerDescription>
+			<Services>				
+				<!-- handle only by training server 
+				<Adobe>JBOSS_FOR_ADOBE_LIVECYCLE_ES3</Adobe>
+				<AdobeDB>MySQL for Adobe LiveCycle ES3</AdobeDB>				
+				-->
+				<AdobeWorker>GS Worker Daemon Training14</AdobeWorker>				
+			</Services> 
+		</ServerNode>	
+		<Database> 
+			<ServerName>COPDFRTR14.corporate.eu.astrium.corp</ServerName>
+			<ServerPort>1522</ServerPort>
+			<ServerSID>trainin1</ServerSID>
+		</Database>
+		<ActiveDirectory>
+			<adURL>ldap://windchill-ldapsat.tls.fr.astrium.corp:3268/</adURL>
+			<adSearchBase>dc=astrium,dc=corp</adSearchBase>
+			<adBranch>memberOf=CN=Windchill_Integration, OU=Windchill, OU=Windchill_Gestion, OU=Application Access, OU=Company Groups, DC=fr, dc=astrium,dc=corp</adBranch>
+		</ActiveDirectory>
+		<Logs>
+			<log node="BT1" category="Apache" folder="\\copdfrtr14.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Apache\SERVERBT1.corporate.eu.astrium.corp\" archive="" />
+			<log node="BT1" category="Windchill" folder="\\copdfrtr14.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Windchill\SERVERBT1.corporate.eu.astrium.corp\" archive="" />
+		</Logs>
+		<Folders>
+			<Folder type="LOCAL" description="Windchill Logs">
+				<location>E:\PRODUCT\ptc\WorkArea\LOGS\Apache</location>
+				<comment>Apache Logs</comment>
+			</Folder>
+			<Folder name="SOLR" type="LOCAL" description="Windchill SOLR">
+				<location>E:\PRODUCT\ptc\WorkArea\SOLR</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder type="LOCAL" description="Windchill TEMP">
+				<location>E:\PRODUCT\ptc\WorkArea\TEMP</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder name="VAULT" type="LOCAL" description="Windchill Vaults">
+				<location>E:\PRODUCT\ptc\WorkArea\VAULT</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder type="ON SERVER" description="COPDFRI04 (CORE)">
+				<location>\\copdfri04.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>	
+		</Folders>
+	</Cluster>
+		<!-- Connect Windchill Training 5 -->
+	<Cluster name="PDM-TRAINING5" version="R3.2 HF7" fullVersion="WINDCHILLM020_PHENIX4V10_NEWPDM_R3.2HF7" instanceName="Connect Windchill Training 5" description="Connect Windchill Training 5" isProductionServer="false" WindchillControl="true">	
+		<ServerURL>
+			<Icon>star-medal-gold-green.png</Icon>
+			<URL DisplayName="Connect Windchill Training 5 (Reference)" wtURL="true">http://COPDFRTR15.corporate.eu.astrium.corp:8000/Windchill</URL>
+			<URL DisplayName="Cognos8">http://COPDFRTR15.corporate.eu.astrium.corp:8000/cognos8</URL>
+			<URL DisplayName="Web Services WT">http://copdfrtr15.corporate.eu.astrium.corp:8000/Windchill/servlet/RMWebServices</URL>
+		</ServerURL>	
+		<ServerNode name="BT1" server="COPDFRTR15.corporate.eu.astrium.corp" ip="10.49.0.140">
+			<ServerDescription>Windchill DS, 1 Background MS, 1 MS, 1 Partslink</ServerDescription>
+			<Services>		
+				<WDS>Windchill Directory Server</WDS>
+				<Apache>WindchillApache</Apache>
+				<MasterServerManager>WindchillMasterServerManager</MasterServerManager>
+				<Windchill>Windchill</Windchill>
+				<PartsLink>Windchill_PartsLink</PartsLink>
+				<Cognos>Cognos 8</Cognos>	
+				<DSMCore>DSMCore</DSMCore>								
+			</Services>
+		</ServerNode>	
+		<ServerNode name="PDF" server="copdfrtr04.corporate.eu.astrium.corp" ip="10.49.0.200">
+			<ServerDescription>PDF Training server + Scrum04 rendition</ServerDescription>
+			<Services>				
+				<!-- handle only by training server 
+				<Adobe>JBOSS_FOR_ADOBE_LIVECYCLE_ES3</Adobe>
+				<AdobeDB>MySQL for Adobe LiveCycle ES3</AdobeDB>				
+				-->
+				<AdobeWorker>GS Worker Daemon Training15</AdobeWorker>				
+			</Services> 
+		</ServerNode>	
+		<Database> 
+			<ServerName>COPDFRTR15.corporate.eu.astrium.corp</ServerName>
+			<ServerPort>1522</ServerPort>
+			<ServerSID>trainin1</ServerSID>
+		</Database>
+		<ActiveDirectory>
+			<adURL>ldap://windchill-ldapsat.tls.fr.astrium.corp:3268/</adURL>
+			<adSearchBase>dc=astrium,dc=corp</adSearchBase>
+			<adBranch>memberOf=CN=Windchill_Integration, OU=Windchill, OU=Windchill_Gestion, OU=Application Access, OU=Company Groups, DC=fr, dc=astrium,dc=corp</adBranch>
+		</ActiveDirectory>
+		<Logs>
+			<log node="BT1" category="Apache" folder="\\copdfrtr15.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Apache\SERVERBT1.corporate.eu.astrium.corp\" archive="" />
+			<log node="BT1" category="Windchill" folder="\\copdfrtr15.corporate.eu.astrium.corp\ptc\WorkArea\LOGS\Windchill\SERVERBT1.corporate.eu.astrium.corp\" archive="" />
+		</Logs>
+		<Folders>
+			<Folder type="LOCAL" description="Windchill Logs">
+				<location>E:\PRODUCT\ptc\Windchill_10.1\WorkArea\LOGS\Apache</location>
+				<comment>Apache Logs</comment>
+			</Folder>
+			<Folder name="SOLR" type="LOCAL" description="Windchill SOLR">
+				<location>E:\PRODUCT\ptc\Windchill_10.1\WorkArea\SOLR</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder type="LOCAL" description="Windchill TEMP">
+				<location>E:\PRODUCT\ptc\Windchill_10.1\WorkArea\TEMP</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder name="VAULT" type="LOCAL" description="Windchill Vaults">
+				<location>E:\PRODUCT\ptc\Windchill_10.1\WorkArea\VAULT</location>
+				<comment>...</comment>
+			</Folder>
+			<Folder type="ON SERVER" description="COPDFRI04 (CORE)">
+				<location>\\copdfri04.corporate.eu.astrium.corp</location>
+				<comment>Direct access</comment>
+			</Folder>	
+		</Folders>
+	</Cluster>
+	
+	
+</ClusterInfo>
