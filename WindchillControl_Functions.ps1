@@ -169,7 +169,8 @@ Function displayUsage () {
 	LogWrite "        Example :"    
 	LogWrite "             - WindchillControl PDM-INT02 fullstop -ni"    
 	LogWrite "             - WindchillControl PDM-INT02 stop -ni BT1 serviceMaster"    
-	LogWrite "             - WindchillControl PDM-INT02 stop BT1 serviceMaster -ni"   
+	LogWrite "             - WindchillControl PDM-INT02 stop BT1 serviceMaster -ni"
+	LogWrite " *** End of usage "
 }	
 
 # Function confirm
